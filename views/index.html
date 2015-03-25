@@ -14,69 +14,76 @@
     <div id="wrapper" class="wrapper">
       <div class="collapse navbar-collapse">
         <div class="nav navbar-nav side-nav-left">
-                    <li><a href="#" data-toggle="collapse" data-target="#model-selection-collapse">Select your model</a>
-                      <div id="model-selection-collapse" class="collapse panel-second-list">
-                        <ul>
-                          <li>
-                            <div data-toggle="buttons" class="btn-group">
-                              <label id="PlainStraw" data-target="#PlainStraw-panel" data-toggle="collapse" class="btn btn-default">
-                                <input type="radio" autocomplete="off"><span>直吸管</span>
-                              </label>
-                              <label id="BendyStraw" data-target="#BendyStraw-panel" data-toggle="collapse" class="btn btn-default">
-                                <input type="radio" autocomplete="off"><span>弯吸管</span>
-                              </label>
-                            </div>
-                          </li>
-                        </ul>
+              <li><a href="#" data-toggle="collapse" data-target="#model-selection-collapse">Select your model</a>
+                <div id="model-selection-collapse" class="collapse panel-second-list">
+                  <ul>
+                    <li>
+                      <div data-toggle="buttons" class="btn-group">
+                        <label id="PlainStraw" data-target="#PlainStraw-panel" data-toggle="collapse" class="btn btn-default">
+                          <input type="radio" autocomplete="off"><span>直吸管</span>
+                        </label>
+                        <label id="BendyStraw" data-target="#BendyStraw-panel" data-toggle="collapse" class="btn btn-default">
+                          <input type="radio" autocomplete="off"><span>弯吸管</span>
+                        </label>
                       </div>
                     </li>
-                    <li><a href="#" data-toggle="collapse" data-target="#model-adjustion-collapse">Adjust your model</a>
-                      <div id="model-adjustion-collapse" class="collapse panel-second-list">
-                        <ul>
-                          <li>
-                            <div id="parameters" class="panel-group">
-                              <div id="PlainStraw-panel" class="panel-collapse collapse in">
-                                <div id="管身长度" class="input-group input-group-html5"><span class="input-group-addon">管身长度</span><span class="input-group-addon addon-range">
-                                    <input id="管身长度-range" type="range" min="110000" max="130000" value="110000"></span>
-                                  <input id="管身长度-text" value="55" class="form-control">
-                                </div><br>
-                                <div id="吸管半径" class="input-group input-group-html5"><span class="input-group-addon">吸管半径</span><span class="input-group-addon addon-range">
-                                    <input id="吸管半径-range" type="range" min="4000" max="8000" value="6000"></span>
-                                  <input id="吸管半径-text" value="3" class="form-control">
-                                </div><br>
-                              </div>
-                              <div id="BendyStraw-panel" class="panel-collapse collapse in">
-                                <div id="弯折长度" class="input-group input-group-html5"><span class="input-group-addon">弯折长度</span><span class="input-group-addon addon-range">
-                                    <input id="弯折长度-range" type="range" min="1500" max="3000" value="1600"></span>
-                                  <input id="弯折长度-text" value="0.8" class="form-control">
-                                </div><br>
-                                <div id="吸管半径" class="input-group input-group-html5"><span class="input-group-addon">吸管半径</span><span class="input-group-addon addon-range">
-                                    <input id="吸管半径-range" type="range" min="4000" max="8000" value="6000"></span>
-                                  <input id="吸管半径-text" value="3" class="form-control">
-                                </div><br>
-                                <div id="管嘴长度" class="input-group input-group-html5"><span class="input-group-addon">管嘴长度</span><span class="input-group-addon addon-range">
-                                    <input id="管嘴长度-range" type="range" min="20000" max="40000" value="20000"></span>
-                                  <input id="管嘴长度-text" value="10" class="form-control">
-                                </div><br>
-                                <div id="管身长度" class="input-group input-group-html5"><span class="input-group-addon">管身长度</span><span class="input-group-addon addon-range">
-                                    <input id="管身长度-range" type="range" min="110000" max="150000" value="130000"></span>
-                                  <input id="管身长度-text" value="65" class="form-control">
-                                </div><br>
-                                <div id="弯折角度" class="input-group input-group-html5"><span class="input-group-addon">弯折角度</span><span class="input-group-addon addon-range">
-                                    <input id="弯折角度-range" type="range" min="0" max="125.66370614359174" value="78.53981633974483"></span>
-                                  <input id="弯折角度-text" value="0.039269908169872414" class="form-control">
-                                </div><br>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
+                  </ul>
+                </div>
+              </li>
+              <li><a href="#" data-toggle="collapse" data-target="#model-adjustion-collapse">Adjust your model</a>
+                <div id="model-adjustion-collapse" class="collapse panel-second-list">
+                  <ul>
+                    <li>
+                      <div id="parameters" class="panel-group">
+                        <div id="PlainStraw-panel" class="panel-collapse collapse in">
+                              <div id="管身长度" class="input-group input-group-html5"><span class="input-group-addon">管身长度</span><span class="input-group-addon addon-range">
+                                  <input id="管身长度-range" type="range" min="110000" max="130000" value="110000"></span>
+                                <input id="管身长度-text" value="55" class="form-control">
+                              </div><br>
+                              <div id="吸管半径" class="input-group input-group-html5"><span class="input-group-addon">吸管半径</span><span class="input-group-addon addon-range">
+                                  <input id="吸管半径-range" type="range" min="4000" max="8000" value="6000"></span>
+                                <input id="吸管半径-text" value="3" class="form-control">
+                              </div><br>
+                        </div>
+                        <div id="BendyStraw-panel" class="panel-collapse collapse in">
+                              <div id="弯折长度" class="input-group input-group-html5"><span class="input-group-addon">弯折长度</span><span class="input-group-addon addon-range">
+                                  <input id="弯折长度-range" type="range" min="1500" max="3000" value="1600"></span>
+                                <input id="弯折长度-text" value="0.8" class="form-control">
+                              </div><br>
+                              <div id="吸管半径" class="input-group input-group-html5"><span class="input-group-addon">吸管半径</span><span class="input-group-addon addon-range">
+                                  <input id="吸管半径-range" type="range" min="4000" max="8000" value="6000"></span>
+                                <input id="吸管半径-text" value="3" class="form-control">
+                              </div><br>
+                              <div id="管嘴长度" class="input-group input-group-html5"><span class="input-group-addon">管嘴长度</span><span class="input-group-addon addon-range">
+                                  <input id="管嘴长度-range" type="range" min="20000" max="40000" value="20000"></span>
+                                <input id="管嘴长度-text" value="10" class="form-control">
+                              </div><br>
+                              <div id="管身长度" class="input-group input-group-html5"><span class="input-group-addon">管身长度</span><span class="input-group-addon addon-range">
+                                  <input id="管身长度-range" type="range" min="110000" max="150000" value="130000"></span>
+                                <input id="管身长度-text" value="65" class="form-control">
+                              </div><br>
+                              <div id="弯折角度" class="input-group input-group-html5"><span class="input-group-addon">弯折角度</span><span class="input-group-addon addon-range">
+                                  <input id="弯折角度-range" type="range" min="0" max="125.66370614359174" value="78.53981633974483"></span>
+                                <input id="弯折角度-text" value="0.039269908169872414" class="form-control">
+                              </div><br>
+                        </div>
                       </div>
                     </li>
-                    <li><a href="#" data-toggle="collapse" data-target="#surface-design-collapse">Design for your own</a>
-                      <div id="surface-design-collapse" class="collapse panel-second-list">
-                        <button type="button" data-toggle="modal" data-target="#gallery-modal" class="btn btn-default"></button>
-                      </div>
+                  </ul>
+                </div>
+              </li>
+              <li><a href="#" data-toggle="collapse" data-target="#surface-design-collapse">Design for your own</a>
+                <div id="surface-design-collapse" class="collapse panel-second-list">
+                  <ul>
+                    <li>
+                      <button type="button" data-toggle="modal" data-target="#gallery-modal" class="btn btn-default">Insert image</button>
                     </li>
+                    <li>
+                      <button type="button" data-toggle="modal" data-target="#text-modal" class="btn btn-default">Insert text</button>
+                    </li>
+                  </ul>
+                </div>
+              </li>
         </div>
       </div>
     </div>
@@ -88,6 +95,7 @@
                 <h4 class="modal-title">All images are presented here~</h4>
               </div>
               <div class="modal-body">
+                <input id="upload-image" type="file">
               </div>
             </div>
           </div>
@@ -100,6 +108,23 @@
                 <h4 class="modal-title">Figure out a better slogan?</h4>
               </div>
               <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <textarea id="text" class="form-control"></textarea>
+                    <div class="form-group">
+                          <div id="Size" class="input-group input-group-html5"><span class="input-group-addon">Size</span><span class="input-group-addon addon-range">
+                              <input id="Size-range" type="range" min="20000" max="60000" value="40000"></span>
+                            <input id="Size-text" value="20" class="form-control">
+                          </div>
+                    </div>
+                    <div class="form-group">
+                          <div id="Kerning" class="input-group input-group-html5"><span class="input-group-addon">Kerning</span><span class="input-group-addon addon-range">
+                              <input id="Kerning-range" type="range" min="-10000" max="10000" value="0"></span>
+                            <input id="Kerning-text" value="0" class="form-control">
+                          </div>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
