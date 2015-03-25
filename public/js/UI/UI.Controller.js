@@ -118,28 +118,6 @@ UI.Controller.prototype.insertImage = function(containerID){
         id : 'gallery',
         buttonText : '插點图片？',
         title: '图片都在这儿了',
-        content : $(
-            '<a href=# class="select"><img src="./images/126543l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/128618l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/136024l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/127745l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/132919l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/133976l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/126347l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/128638l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/130091l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/132687l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/128665l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/132899l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/132882l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/132729l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/132852l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/129980l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/129542l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/137747l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/129859l.jpg"></a>'+
-            '<a href=# class="select"><img src="./images/131406l.jpg"></a>'
-        )
     })
 	
     this.uploadImageButton('gallery.modal-body');
@@ -211,11 +189,17 @@ UI.Controller.prototype.deleteButton = function(containerID){
 }
 
 UI.Controller.prototype.uploadImageButton = function(containerID){
-    console.log('yay');
-    $('<form id="uploadForm" enctype="multipart/form-data" action="/uploadImage" method="post"></form>')
-        .appendTo($('#'+containerID))
-        .append('<input type="file" name="fileHolder"></input>')
-        .append('<input type="submit" name="submit" value="Upload File"></input>')
+    $('<input id="upload-image" type="file">').appendTo('#'+containerID);
+
+    $("#upload-image").fileinput({
+        uploadUrl: '/uploadImage/',
+        uploadAsyc : true,
+        showPreview: false
+    })
+
+    $("#upload-image").on('filebatchuploadsuccess', function(event, data, previewID, index){
+        $("#gallery.modal-body").append($('<a href=# class="select"><img src="./images/'+data.response.file+'"></a>'));
+    });
 };
 
 UI.Controller.prototype.canvasEditor = function(containerID){

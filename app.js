@@ -30,9 +30,15 @@ app.use('/', routes);
 app.use('/users', users);
 
 app.post('/uploadImage', function(req, res, next){
-    // console.log(req.files);
-    req.files.fileHolder.toFile(path.join(__dirname, 'public/images'), function(){
-        res.send('ok');
+    req.files.file_data.toFile(path.join(__dirname, 'public/images'), function(err, data){
+
+        if(!err){
+            console.log('file uploaded successfully, and sent back the result');
+            res.send({
+                res : 'ok',
+                file : path.basename(data)
+            });            
+        }
     })
 
 })
