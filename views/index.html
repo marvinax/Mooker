@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title Moquet Dezine></title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <link rel="stylesheet" href="./css/range-input.css">
+    <link rel="stylesheet" href="./css/ruler.css">
+    <link rel="stylesheet" href="./css/colorPicker.min.css">
+    <link rel="stylesheet" href="./css/fileinput.min.css">
+  </head>
+  <body>
+    <div id="wrapper" class="wrapper">
+      <div class="collapse navbar-collapse">
+        <div class="nav navbar-nav side-nav-left">
+                    <li><a href="#" data-toggle="collapse" data-target="#model-selection-collapse">Select your model</a>
+                      <div id="model-selection-collapse" class="collapse panel-second-list">
+                        <ul>
+                          <li>
+                            <div data-toggle="buttons" class="btn-group">
+                              <label id="PlainStraw" data-target="#PlainStraw-panel" data-toggle="collapse" class="btn btn-default">
+                                <input type="radio" autocomplete="off"><span>直吸管</span>
+                              </label>
+                              <label id="BendyStraw" data-target="#BendyStraw-panel" data-toggle="collapse" class="btn btn-default">
+                                <input type="radio" autocomplete="off"><span>弯吸管</span>
+                              </label>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li><a href="#" data-toggle="collapse" data-target="#model-adjustion-collapse">Adjust your model</a>
+                      <div id="model-adjustion-collapse" class="collapse panel-second-list">
+                        <ul>
+                          <li>
+                            <div id="parameters" class="panel-group">
+                              <div id="PlainStraw-panel" class="panel-collapse collapse in">
+                                <div id="管身长度" class="input-group input-group-html5"><span class="input-group-addon">管身长度</span><span class="input-group-addon addon-range">
+                                    <input id="管身长度-range" type="range" min="110000" max="130000" value="110000"></span>
+                                  <input id="管身长度-text" value="55" class="form-control">
+                                </div><br>
+                                <div id="吸管半径" class="input-group input-group-html5"><span class="input-group-addon">吸管半径</span><span class="input-group-addon addon-range">
+                                    <input id="吸管半径-range" type="range" min="4000" max="8000" value="6000"></span>
+                                  <input id="吸管半径-text" value="3" class="form-control">
+                                </div><br>
+                              </div>
+                              <div id="BendyStraw-panel" class="panel-collapse collapse in">
+                                <div id="弯折长度" class="input-group input-group-html5"><span class="input-group-addon">弯折长度</span><span class="input-group-addon addon-range">
+                                    <input id="弯折长度-range" type="range" min="1500" max="3000" value="1600"></span>
+                                  <input id="弯折长度-text" value="0.8" class="form-control">
+                                </div><br>
+                                <div id="吸管半径" class="input-group input-group-html5"><span class="input-group-addon">吸管半径</span><span class="input-group-addon addon-range">
+                                    <input id="吸管半径-range" type="range" min="4000" max="8000" value="6000"></span>
+                                  <input id="吸管半径-text" value="3" class="form-control">
+                                </div><br>
+                                <div id="管嘴长度" class="input-group input-group-html5"><span class="input-group-addon">管嘴长度</span><span class="input-group-addon addon-range">
+                                    <input id="管嘴长度-range" type="range" min="20000" max="40000" value="20000"></span>
+                                  <input id="管嘴长度-text" value="10" class="form-control">
+                                </div><br>
+                                <div id="管身长度" class="input-group input-group-html5"><span class="input-group-addon">管身长度</span><span class="input-group-addon addon-range">
+                                    <input id="管身长度-range" type="range" min="110000" max="150000" value="130000"></span>
+                                  <input id="管身长度-text" value="65" class="form-control">
+                                </div><br>
+                                <div id="弯折角度" class="input-group input-group-html5"><span class="input-group-addon">弯折角度</span><span class="input-group-addon addon-range">
+                                    <input id="弯折角度-range" type="range" min="0" max="125.66370614359174" value="78.53981633974483"></span>
+                                  <input id="弯折角度-text" value="0.039269908169872414" class="form-control">
+                                </div><br>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li><a href="#" data-toggle="collapse" data-target="#surface-design-collapse">Design for your own</a>
+                      <div id="surface-design-collapse" class="collapse panel-second-list">
+                        <button type="button" data-toggle="modal" data-target="#gallery-modal" class="btn btn-default"></button>
+                      </div>
+                    </li>
+        </div>
+      </div>
+    </div>
+        <div id="gallery-modal" tabindex="-1" class="modal fade">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" data-dismiss="modal" class="close"><span>&times;</span></button>
+                <h4 class="modal-title">All images are presented here~</h4>
+              </div>
+              <div class="modal-body">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="text-modal" tabindex="-1" class="modal fade">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" data-dismiss="modal" class="close"><span>&times;</span></button>
+                <h4 class="modal-title">Figure out a better slogan?</h4>
+              </div>
+              <div class="modal-body">
+              </div>
+            </div>
+          </div>
+        </div>
+  </body>
+  <script src="./js/vendors/jquery-1.11.2.min.js"></script>
+  <script src="./js/vendors/jquery.nav.min.js"></script>
+  <script src="./js/vendors/bootstrap.min.js"></script>
+  <script src="./js/vendors/fileinput.min.js"></script>
+  <script src="./js/vendors/three.min.js"></script>
+  <script src="./js/vendors/tween.min.js"></script>
+  <script src="./js/vendors/TrackballControl.min.js"></script>
+  <script src="./js/vendors/fabric.min.js"></script>
+  <script src="./js/vendors/modernizr.js"></script>
+  <script src="./js/vendors/ruler.js"></script>
+  <script src="./js/vendors/colorPicker.min.js"></script>
+  <script src="./js/Tautology.min.js"></script>
+  <script src="./js/UI.min.js"></script>
+  <script src="./js/models.js"></script>
+  <script src="./js/Tests.js"></script>
+</html>
