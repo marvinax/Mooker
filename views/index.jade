@@ -21,67 +21,73 @@ html(lang="en")
 
 
 	body
-
-		mixin side-item(id, description)
-			li
-				a(href="#", data-toggle="collapse", data-target="#"+id+"-collapse")=description
-				div.collapse.panel-second-list(id=id+"-collapse")
-					block
-
-		mixin slider(name, min, max, val)
-			.input-group.input-group-html5(id=name)
-				span.input-group-addon= name
-				span.input-group-addon.addon-range
-					input(id=name+"-range", type="range", min=min*2000, max=max*2000, value=val*2000)
-				input.form-control(id=name+"-text", value=val)
-
-
 		#wrapper.wrapper
-			.collapse.navbar-collapse
-				.nav.navbar-nav.side-nav-left
+			mixin side-item(id, description)
+				li
+					a(href="#", data-toggle="collapse", data-target="#"+id+"-collapse")=description
+					div.collapse.panel-second-list(id=id+"-collapse")
+						block
 
-					+side-item("model-selection", "Select your model")
-						ul: li: div.btn-group(data-toggle="buttons")
-							each val, index in models
-								label.btn.btn-default(id=index, data-target="#"+index+"-panel", data-toggle="collapse")
-									input(type="radio", autocomplete="off")
-									span=val.name
+			mixin slider(name, min, max, val)
+				.input-group.input-group-html5(id=name)
+					span.input-group-addon= name
+					span.input-group-addon.addon-range
+						input(id=name+"-range", type="range", min=min*2000, max=max*2000, value=val*2000)
+					input.form-control(id=name+"-text", value=val)
 
-					+side-item("model-adjustion", "Adjust your model")
-						ul: li: div#parameters.panel-group
-							each val, index in models
-								div.panel-collapse.collapse.in(id=index+"-panel")
-									each param, item in val.param
-										+slider(param.name, param.min, param.max, param.val)
-										br
 
-					+side-item("surface-design", "Design for your own")
-						ul
-							li: 
-							li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#gallery-modal") Insert image
-							li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#text-modal") Insert text
+			#wrapper.wrapper
+				.collapse.navbar-collapse
+					.nav.navbar-nav.side-nav-left
 
-	
-		mixin modal(id, title)
-			.modal.fade(id=id+"-modal", tabindex=-1)
-				.modal-dialog.modal-lg
-					.modal-content
-						.modal-header
-							button(type="button", class="close", data-dismiss="modal"): span &times;
-							h4.modal-title= title
+						+side-item("model-selection", "Select your model")
+							ul: li: div.btn-group(data-toggle="buttons")
+								each val, index in models
+									label.btn.btn-default(id=index, data-target="#"+index+"-panel", data-toggle="collapse")
+										input(type="radio", autocomplete="off")
+										span=val.name
 
-						.modal-body
-							block
+						+side-item("model-adjustion", "Adjust your model")
+							ul: li: div#parameters.panel-group
+								each val, index in models
+									div.panel-collapse.collapse.in(id=index+"-panel")
+										each param, item in val.param
+											+slider(param.name, param.min, param.max, param.val)
+											br
 
-		+modal('gallery', 'All images are presented here~')
-			input#upload-image(type="file")
+						+side-item("surface-design", "Design for your own")
+							ul
+								li: button.btn.btn-default(type="button") Change base color
+								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#gallery-modal") Insert image
+								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#text-modal") Insert text
 
-		+modal('text', 'Figure out a better slogan?')
-			form
-				.form-group: textarea#text.form-control
-				.form-group: +slider("Size", 10, 30, 20)
-				.form-group: +slider("Kerning", -5, 5, 0)
-			button#confirm-text.btn.btn-primary(href="#") Insert text
+		
+			mixin modal(id, title)
+				.modal.fade(id=id+"-modal", tabindex=-1)
+					.modal-dialog.modal-lg
+						.modal-content
+							.modal-header
+								button(type="button", class="close", data-dismiss="modal"): span &times;
+								h4.modal-title= title
+
+							.modal-body
+								block
+
+			+modal('gallery', 'All images are presented here~')
+				input#upload-image(type="file")
+
+			+modal('text', 'Figure out a better slogan?')
+				form
+					.form-group: textarea#text.form-control
+					.form-group: +slider("Size", 10, 30, 20)
+					.form-group: +slider("Kerning", -5, 5, 0)
+				button#confirm-text.btn.btn-primary(href="#") Insert text
+
+			#page-wrapper.page-wrapper: .container-fluid: .row: .col-lg-12
+				#three-viewport.panel.panel-default
+				#viewContainer.panel.panel-default(height=200)
+					#scrollView: canvas#two-viewport.container-fluid
+
 
 	script(src="./js/vendors/jquery-1.11.2.min.js")
 	script(src="./js/vendors/jquery.nav.min.js")
