@@ -28,12 +28,12 @@ html(lang="en")
 					div.collapse.panel-second-list(id=id+"-collapse")
 						block
 
-			mixin slider(name, min, max, val)
-				.input-group.input-group-html5(id=name)
+			mixin slider(model, name, min, max, val)
+				.input-group.input-group-html5(id=model+'-'+name)
 					span.input-group-addon= name
 					span.input-group-addon.addon-range
-						input(id=name+"-range", type="range", min=min*2000, max=max*2000, value=val*2000)
-					input.form-control(id=name+"-text", value=val)
+						input(id=model+'-'+name+"-range", type="range", min=min*2000, max=max*2000, value=val*2000)
+					input.form-control(id=model+'-'+name+"-text", value=val)
 
 
 			#wrapper.wrapper
@@ -43,21 +43,21 @@ html(lang="en")
 						+side-item("model-selection", "Select your model")
 							ul: li: div.btn-group(data-toggle="buttons")
 								each val, index in models
-									label.btn.btn-default(id=index, data-target="#"+index+"-panel", data-toggle="collapse")
+									label.btn.btn-default(id=index+"-button", data-target="#"+index+"-panel", data-toggle="collapse")
 										input(type="radio", autocomplete="off")
 										span=val.name
 
 						+side-item("model-adjustion", "Adjust your model")
 							ul: li: div#parameters.panel-group
 								each val, index in models
-									div.panel-collapse.collapse.in(id=index+"-panel")
+									div.panel-collapse.collapse(id=index+"-panel", data-parent="#parameters")
 										each param, item in val.param
-											+slider(param.name, param.min, param.max, param.val)
+											+slider(index, param.name, param.min, param.max, param.val)
 											br
 
 						+side-item("surface-design", "Design for your own")
 							ul
-								li: button.btn.btn-default(type="button") Change base color
+								li: button#color.btn.btn-default(type="button") Change base color
 								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#gallery-modal") Insert image
 								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#text-modal") Insert text
 
@@ -74,7 +74,9 @@ html(lang="en")
 								block
 
 			+modal('gallery', 'All images are presented here~')
-				input#upload-image(type="file")
+				div: input#upload-image(type="file")
+				
+				#image-container.col-md-10
 
 			+modal('text', 'Figure out a better slogan?')
 				form

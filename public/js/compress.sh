@@ -16,7 +16,6 @@ uglifyjs ./Tautology/Tautology.js \
 uglifyjs ./UI/UI.js \
          ./UI/UI.Three.js \
          ./UI/UI.Two.js \
-         ./UI/UI.Controller.js \
          -o UI.min.js \
          --source-map UI.min.js.map \
          --source-map-root http://foo.com/src \

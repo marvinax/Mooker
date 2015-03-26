@@ -9,20 +9,14 @@ UI.Controller = function(models, material){
 
 	this.modelManager.select((Object.keys(this.models))[0], this.three.scene);
 
-	this.modelSelector('type-list', 'parameters');
-
 	this.canvasEditor('tools', this.two);
 }
 
 UI.Controller.prototype.constructor = UI.Controller;
 
 UI.Controller.prototype.modelSelector = function(containerID, modifierContainerID){
-    $('<li>').appendTo($('#'+containerID)).append($('<div id="model-selector" class="btn-group" data-toggle="buttons"></div>'));
+
     Object.keys(this.models).forEach(function(key){
-        $('<label id='+ key +' class="btn btn-default">')
-            .appendTo($('#model-selector'))
-            .append($('<input type="radio" autocomplete="off">'))
-            .append($('<span>'+models[key].name+'</span>'));
 
         $('#'+key).on('click', function(){
             this.modelManager.select(key, this.three.scene);
@@ -82,8 +76,7 @@ UI.Controller.prototype.slider = function(param, containerID){
     })
 
     $('#'+param.name+'-range').on('input change', function(){
-        $('#'+param.name+'-text').val(this.value/2000);
-        
+        $('#'+param.name+'-text').val(this.value/2000);        
     })
 
 }
@@ -198,7 +191,7 @@ UI.Controller.prototype.uploadImageButton = function(containerID){
     })
 
     $("#upload-image").on('filebatchuploadsuccess', function(event, data, previewID, index){
-        $("#gallery.modal-body").append($('<a href=# class="select"><img src="./images/'+data.response.file+'"></a>'));
+        $("#image-container").append($('<a href=# class="select"><img src="./images/'+data.response.file+'" class="col-md-3"></a>'));
     });
 };
 

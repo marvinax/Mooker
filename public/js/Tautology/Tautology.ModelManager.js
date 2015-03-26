@@ -35,3 +35,9 @@ Tautology.ModelManager.prototype.select = function(key, scene) {
 
 	scene.add(this.models[key].meshes);
 }
+
+$('#color').colorpicker({
+		colorformat : 'rgba',
+		alignment : 'br',
+		onSelect : 
+})
