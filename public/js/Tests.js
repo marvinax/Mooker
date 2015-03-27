@@ -57,3 +57,7 @@ $("#upload-image").fileinput({
 	$("#image-container").append($('<a href=# class="select"><img src="./images/'+data.response.file+'" class="col-md-3"></a>'));
 });
 
+$('.select').on('click', function(e){
+	two.addImage(e.target.getAttribute('src'));
+    $('#gallery-modal').modal('toggle');
+})
