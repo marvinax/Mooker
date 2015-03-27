@@ -53,11 +53,38 @@ $("#upload-image").fileinput({
 	uploadAsyc : true,
 	showPreview: false
 }).on('filebatchuploadsuccess', function(event, data, previewID, index){
-	console.log('did i recevied anything?');
-	$("#image-container").append($('<a href=# class="select"><img src="./images/'+data.response.file+'" class="col-md-3"></a>'));
+	$("#image-container").append($('<a href=#><img src="./images/'+data.response.file+'" class="select col-md-3"></a>'));
+
+	$('.select').on('click', function(e){
+		two.addImage(e.target.getAttribute('src'));
+	    $('#gallery-modal').modal('toggle');
+	})
 });
 
-$('.select').on('click', function(e){
-	two.addImage(e.target.getAttribute('src'));
-    $('#gallery-modal').modal('toggle');
+$('#text-Kerning-range').on('input change', function(){
+	$('#text-Kerning-text').val(this.value/2000);
+});
+
+$('#text-Kerning-text').on('change', function(){
+	$('#text-Kerning-range').val(this.value*2000);
 })
+
+$('#text-Size-range').on('input change', function(){
+	$('#text-Size-text').val(this.value/2000);
+});
+
+$('#text-Size-text').on('change', function(){
+	$('#text-Size-range').val(this.value*2000);
+})
+
+
+
+$('#confirm-text').on('click', function(){
+    two.addText($('input#text').val(), 'Helvetica normal', parseFloat($('#text-Size-text').val()), parseFloat($('#text-Kerning-text').val()));
+    $('#text-modal').modal('toggle');
+})
+
+$('#deleteButton').on('click', function(){
+    two.removeSelectedObject();
+    two.canvas.renderAll();
+});

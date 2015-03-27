@@ -14,6 +14,10 @@
     "express": "~4.12.2",
     "nodefu" : "latest",
     "morgan": "~1.5.1",
-    "serve-favicon": "~2.2.0"
+    "serve-favicon": "~2.2.0",
+    "express-session": "latest",
+    "mongodb": "latest",
+    "connect-mongo": "latest",
+    "crypto": "latest"
   }
 }

@@ -22,6 +22,7 @@ html(lang="en")
 
 	body
 		#wrapper.wrapper
+
 			mixin side-item(id, description)
 				li
 					a(href="#", data-toggle="collapse", data-target="#"+id+"-collapse")=description
@@ -40,14 +41,14 @@ html(lang="en")
 				.collapse.navbar-collapse
 					.nav.navbar-nav.side-nav-left
 
-						+side-item("model-selection", "Select your model")
+						+side-item("model-selection", "选择模型")
 							ul: li: div.btn-group(data-toggle="buttons")
 								each val, index in models
 									label.btn.btn-default(id=index+"-button", data-target="#"+index+"-panel", data-toggle="collapse")
 										input(type="radio", autocomplete="off")
 										span=val.name
 
-						+side-item("model-adjustion", "Adjust your model")
+						+side-item("model-adjustion", "调节你的模型")
 							ul: li: div#parameters.panel-group
 								each val, index in models
 									div.panel-collapse.collapse(id=index+"-panel", data-parent="#parameters")
@@ -55,11 +56,14 @@ html(lang="en")
 											+slider(index, param.name, param.min, param.max, param.val)
 											br
 
-						+side-item("surface-design", "Design for your own")
+						+side-item("surface-design", "设计表面的图案")
 							ul
-								li: button#color.btn.btn-default(type="button") Change base color
-								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#gallery-modal") Insert image
-								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#text-modal") Insert text
+								li: button#color.btn.btn-default(type="button") 更改底色
+
+								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#gallery-modal") 插入图片
+								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#text-modal") 插入文字
+								li: button.btn.btn-primary(id="deleteButton", type="button") 删除选中的文字/图片
+
 
 		
 			mixin modal(id, title)
@@ -75,14 +79,19 @@ html(lang="en")
 
 			+modal('gallery', 'All images are presented here~')
 				div: input#upload-image(type="file")
-				
+
 				#image-container.col-md-10
+					- for (var i = 1; i <= 25; ++i) {
+						a.select(href='#'): img.col-md-3(src="./images/public_logos/"+i+".png")
+					- }
+						
+							
 
 			+modal('text', 'Figure out a better slogan?')
 				form
-					.form-group: textarea#text.form-control
-					.form-group: +slider("Size", 10, 30, 20)
-					.form-group: +slider("Kerning", -5, 5, 0)
+					.form-group: input#text.form-control
+					.form-group: +slider("text", "Size", 10, 30, 20)
+					.form-group: +slider("text", "Kerning", -5, 5, 0)
 				button#confirm-text.btn.btn-primary(href="#") Insert text
 
 			#page-wrapper.page-wrapper: .container-fluid: .row: .col-lg-12

@@ -40,9 +40,15 @@ app.post('/uploadImage', function(req, res, next){
             });            
         }
     })
+})
+
+app.post('/saveSketch', function(req, res, next){
 
 })
 
+app.get('/loadSketch', function(req, res, next){
+  
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
