@@ -1,36 +1,6 @@
 two = new UI.Two('two-viewport');
 three = new UI.Three('three-viewport');
 
-modelManager = new Tautology.ModelManager(models, material, two.canvas);
-
-modelManager.select((Object.keys(this.models))[0], three.scene);
-
-Object.keys(models).forEach(function(key){
-
-	$('#'+key+'-button').on('click', function(){
-		modelManager.select(key, three.scene);
-		$('.panel-collapse').collapse('hide');
-		$('#'+key+'-panel').collapse('show');
-	});
-
-
-	Object.keys(models[key].model.param).forEach(function(p){
-		var name = models[key].model.param[p].name;
-
-		$('#'+key+'-'+name+'-range').on('input change', function(){
-			models[key].model.param[p].val = this.value/2000;
-			modelManager.models[key].geom.update();
-			$('#'+key+'-'+name+'-text').val(this.value/2000);
-		});
-
-		$('#'+key+'-'+name+'-text').on('change', function(){
-			models[key].model.param[p].val = this.value;
-			modelManager.models[key].geom.update();
-			$('#'+key+'-'+name+'-range').val(this.value*2000);
-		})
-	})
-});
-
 $('#color').colorPicker({
 	colorformat : 'rgba',
 	alignment : 'br',
@@ -48,16 +18,25 @@ $('.modal').on('show.bs.modal', function () {
 	});
 });
 
+$('.select').on('click', function(e){
+	two.addImage(e.target.getAttribute('src'));
+	$('#gallery-modal').modal('toggle');
+})
+
+
 $("#upload-image").fileinput({
 	uploadUrl: '/uploadImage/',
 	uploadAsyc : true,
 	showPreview: false
 }).on('filebatchuploadsuccess', function(event, data, previewID, index){
-	$("#image-container").append($('<a href=#><img src="./images/'+data.response.file+'" class="select col-md-3"></a>'));
+	$("#image-container").append($('<a href=#><img src="./images/'+
+		data.response.file+
+		'" class="select col-md-3"></a>')
+	);
 
 	$('.select').on('click', function(e){
 		two.addImage(e.target.getAttribute('src'));
-	    $('#gallery-modal').modal('toggle');
+		$('#gallery-modal').modal('toggle');
 	})
 });
 
@@ -80,11 +59,79 @@ $('#text-Size-text').on('change', function(){
 
 
 $('#confirm-text').on('click', function(){
-    two.addText($('input#text').val(), 'Helvetica normal', parseFloat($('#text-Size-text').val()), parseFloat($('#text-Kerning-text').val()));
-    $('#text-modal').modal('toggle');
+	two.addText(
+		$('input#text').val(),
+		'Helvetica normal',
+		parseFloat($('#text-Size-text').val()),
+		parseFloat($('#text-Kerning-text').val())
+	);
+	$('#text-modal').modal('toggle');
 })
 
 $('#deleteButton').on('click', function(){
-    two.removeSelectedObject();
-    two.canvas.renderAll();
+	two.removeSelectedObject();
+	two.canvas.renderAll();
 });
+
+$('#save').on('click', function(){
+	var idString = $('.model-select-button.active').attr('id');
+	if(idString){
+
+		var selectedModel = modelManager.models.filter(function(model){
+			return model.name === idString.split('-')[0];
+		})[0];
+
+		$.get('/saveSketch',
+			{
+				three: selectedModel.param,
+				two: JSON.stringify(two.canvas.toDatalessJSON())
+			},
+			function(data){
+				console.log(data);
+			}
+		);
+
+	}
+});
+
+$.get('/loadModels', function(data){
+
+	var material = {
+		mainType: 'phong',
+		opacity : {val: 0.5, min:0., max:1., name: '透明度', type: 'slider'}
+	}
+
+	var models = JSON.parse(data);
+	console.log(models);
+
+	modelManager = new Tautology.ModelManager(models, material, two.canvas);
+	modelManager.select(models[1].name, three.scene);
+
+	modelManager.models.forEach(function(elem){
+		$('#'+elem.name+'-button').on('click', function(){
+			modelManager.select(elem.name, three.scene);
+			$('.panel-collapse').collapse('hide');
+			$('#'+elem.name+'-panel').collapse('show');
+		});
+
+		
+		Object.keys(elem.param).forEach(function(p){
+			var name = elem.param[p].name;
+
+			$('#'+elem.name+'-'+name+'-range').on('input change', function(){
+
+				elem.param[p].val = this.value/2000;
+				elem.geom.update();
+				console.log($('#'+elem.name+'-'+name+'-text').get(0));
+				$('#'+elem.name+'-'+name+'-text').val(this.value/2000);
+			});
+
+			$('#'+elem.name+'-'+name+'-text').on('change', function(){
+				elem.param[p].val = this.value;
+				elem.geom.update();
+				$('#'+elem.name+'-'+name+'-range').val(this.value*2000);
+			})
+		})
+	});
+
+})

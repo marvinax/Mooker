@@ -1,7 +1,3 @@
-var material = {
-	mainType: 'phong',
-	opacity : {val: 0.5, min:0., max:1., name: '透明度', type: 'slider'}
-}
 
 var PlainStraw = {};
 
@@ -156,7 +152,7 @@ BendyStraw.manuever = [
 	},
 ];
 
-var models = {
-	PlainStraw : {name : '直吸管', model: PlainStraw},
-	BendyStraw : {name : '弯吸管', model : BendyStraw}
-};
+var models = [
+	{name : '直吸管', key: 'PlainStraw', model: PlainStraw},
+	{name : '弯吸管', key: 'BendyStraw', model : BendyStraw}
+]

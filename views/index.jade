@@ -1,13 +1,5 @@
 doctype html
 
--var PlainStraw = { length : {min:55, max:65, val:55, name : '管身长度', type: 'slider'}, 	radius: {min: 2, max:4, val:3, name: '吸管半径', type: 'slider'} }
-
--var BendyStraw = {	bellowLength: {min:0.75, max:1.5, val:0.8, name: '弯折长度', type: 'slider'},	radius: {min: 2, max:4, val:3, name: '吸管半径', type: 'slider'},	stubLength : {min:10, max:20, val:10, name : '管嘴长度', type: 'slider'},	bodyLength : {min:55, max:75, val:65, name : '管身长度', type: 'slider'},	lengthAngle: {min:0, max: Math.PI/50, val:Math.PI/80, name : '弯折角度', type: 'slider'} };
-
--var models = {PlainStraw: {name: "直吸管", param : PlainStraw}, BendyStraw: {name: "弯吸管", param:BendyStraw}}
-
-
-
 html(lang="en")
 	head
 		meta(charset="utf-8")
@@ -41,19 +33,24 @@ html(lang="en")
 				.collapse.navbar-collapse
 					.nav.navbar-nav.side-nav-left
 
+						+side-item("file-management", "管理我的设计")
+							ul
+								li: button.btn.btn-default(id="save", type="button") 保存我现在的设计
+								li: button.btn.btn-default(type="button") 载入以前的设计
+
 						+side-item("model-selection", "选择模型")
 							ul: li: div.btn-group(data-toggle="buttons")
-								each val, index in models
-									label.btn.btn-default(id=index+"-button", data-target="#"+index+"-panel", data-toggle="collapse")
+								each val in models
+									label.btn.btn-default.model-select-button(id=val.name+"-button", data-target="#"+val.name+"-panel", data-toggle="collapse")
 										input(type="radio", autocomplete="off")
 										span=val.name
 
 						+side-item("model-adjustion", "调节你的模型")
 							ul: li: div#parameters.panel-group
-								each val, index in models
-									div.panel-collapse.collapse(id=index+"-panel", data-parent="#parameters")
+								each val in models
+									div.panel-collapse.collapse(id=val.name+"-panel", data-parent="#parameters")
 										each param, item in val.param
-											+slider(index, param.name, param.min, param.max, param.val)
+											+slider(val.name, param.name, param.min, param.max, param.val)
 											br
 
 						+side-item("surface-design", "设计表面的图案")
@@ -68,7 +65,7 @@ html(lang="en")
 		
 			mixin modal(id, title)
 				.modal.fade(id=id+"-modal", tabindex=-1)
-					.modal-dialog.modal-lg
+					.modal-dialog.modal-md
 						.modal-content
 							.modal-header
 								button(type="button", class="close", data-dismiss="modal"): span &times;
@@ -82,7 +79,7 @@ html(lang="en")
 
 				#image-container.col-md-10
 					- for (var i = 1; i <= 25; ++i) {
-						a.select(href='#'): img.col-md-3(src="./images/public_logos/"+i+".png")
+						a(href='#'): img.select.col-md-3(src="./images/public_logos/"+i+".png")
 					- }
 						
 							
@@ -94,7 +91,7 @@ html(lang="en")
 					.form-group: +slider("text", "Kerning", -5, 5, 0)
 				button#confirm-text.btn.btn-primary(href="#") Insert text
 
-			#page-wrapper.page-wrapper: .container-fluid: .row: .col-lg-12
+			#page-wrapper.page-wrapper: .container-fluid: .row: .col-md-12
 				#three-viewport.panel.panel-default
 				#viewContainer.panel.panel-default(height=200)
 					#scrollView: canvas#two-viewport.container-fluid
@@ -113,5 +110,5 @@ html(lang="en")
 	script(src="./js/vendors/colorPicker.min.js")
 	script(src="./js/Tautology.min.js")
 	script(src="./js/UI.min.js")
-	script(src="./js/models.js")
+	//- script(src="./js/models.js")
 	script(src="./js/Tests.js")

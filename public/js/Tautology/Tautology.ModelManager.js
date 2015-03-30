@@ -1,5 +1,5 @@
 Tautology.ModelManager = function(models, materialParam, canvas){
-	this.models = {};
+	this.models = models;
 
 	this.texture = new THREE.Texture( canvas.getElement() );
 	this.texture.needsUpdate = true;
@@ -16,16 +16,20 @@ Tautology.ModelManager = function(models, materialParam, canvas){
 Tautology.ModelManager.prototype.constructor = Tautology.ModelManager;
 
 Tautology.ModelManager.prototype.init = function(){
-	Object.keys(models).forEach(function(key){
-		this.models[key] = {};
-		this.models[key].geom = new Tautology.Geometry(models[key].model);
-		this.models[key].meshes = new THREE.Object3D();
-		this.models[key].meshes.add(new THREE.Mesh(this.models[key].geom.geom, this.material.materials.outside));
-		this.models[key].meshes.add(new THREE.Mesh(this.models[key].geom.geom, this.material.materials.inside));		
+	this.models.forEach(function(elem){
+		
+		elem.geom = new Tautology.Geometry(elem);
+		elem.meshes = new THREE.Object3D();
+
+		elem.meshes.add(
+			new THREE.Mesh(elem.geom.geom, this.material.materials.outside),
+			new THREE.Mesh(elem.geom.geom, this.material.materials.inside)
+		);
+		
 	}.bind(this));
 }
 
-Tautology.ModelManager.prototype.select = function(key, scene) {
+Tautology.ModelManager.prototype.select = function(name, scene) {
 
 	for(var i = 0; i < scene.children.length; i++){
 		if(scene.children[i].type == "Object3D"){
@@ -33,5 +37,13 @@ Tautology.ModelManager.prototype.select = function(key, scene) {
 		}
 	}
 
-	scene.add(this.models[key].meshes);
+	this.models.forEach(function(e){
+		if(e.name === name){
+			scene.add(e.meshes);
+		}
+	})
+}
+
+Tautology.ModelManager.prototype.getParameters = function(name){
+	
 }
