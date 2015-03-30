@@ -12,7 +12,7 @@ var Db = require('./node_modules/mongodb').Db,
 
 var mongoDB = new Db('docs', new Server('localhost',  27017, {}), {safe: false});
 
-var mongoFind = function(theDB, theCollection, theQuery, theAction){
+var mongoFind = function(res, theDB, theCollection, theQuery, theAction){
   mongoDB.open(function(err, db){
     if(err){
       console.log(err);
@@ -30,6 +30,7 @@ var mongoFind = function(theDB, theCollection, theQuery, theAction){
 
       collection.find(theQuery).toArray(function(err, data){
         if(err){
+          console.log(err);
           res.send(err);
           return;
         }
@@ -38,12 +39,30 @@ var mongoFind = function(theDB, theCollection, theQuery, theAction){
         db.close();
       })
     });
-
-    
   });
+};
 
+var mongoSave = function(theDB, theCollection, theData){
+  mongoDB.open(function(err, db){
+    if(err){
+      console.log(err);
+      res.send(err);
+      return;
+    }
+    db.collection('models', function(err, collection){
+      if(err){
+        db.close();
+        console.log(err);
+        res.send(err);
+        return;
+      }
+      collection.insert(theData, {safe : true}, function(err, data){
+        console.log(data);
+        db.close();
+      })
+    })
+  })
 }
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -65,12 +84,12 @@ app.use(nodefu());
 var jsonParser = bodyParser.json({type: '*/*'});
 
 app.get('/saveSketch', jsonParser, function(req, res, next){
-  console.log(req.query);
-  res.send({ok: "saved", whatvedone: req.query});
+  mongoSave(mongoDB, 'models', req.query);
+  res.send({ok: 'saved'});
 })
 
 app.get('/', function(req, res,next){
-  mongoFind(mongoDB, 'models', {type:"model"}, function(data){
+  mongoFind(res, mongoDB, 'models', {type:"model"}, function(data){
     res.render('index', {models: data});
   })
 });
@@ -89,15 +108,49 @@ app.post('/uploadImage', function(req, res, next){
 });
 
 app.get('/loadModels', function(req, res, next){
-  mongoFind(mongoDB, 'models', {type:"model"}, function(data){
+  mongoFind(res, mongoDB, 'models', {type:"model"}, function(data){
     console.log(data);
     res.json(JSON.stringify(data));
   })
 });
 
 
-app.get('/loadSketch', function(req, res, next){
-  
+app.get('/loadSingleSketch', function(req, res, next){
+
+  mongoFind(res, mongoDB, 'models', req.query, function(data){
+    console.log(data);
+    res.json(JSON.stringify(data[0]));
+  })
+})
+
+app.get('/loadSketchList', function(req, res, next){
+  mongoDB.open(function(err, db){
+    if(err){
+      console.log(err);
+      res.send(err);
+      return;
+    }
+    
+    db.collection('models', function(err, collection){
+      if(err){
+        db.close();
+        console.log(err);
+        res.send(err);
+        return;
+      }
+
+      collection.find({type:"sketch"}, {_id:1, name:1}).toArray(function(err, data){
+        if(err){
+          console.log(err);
+          res.send(err);
+          return;
+        }
+
+        res.json(JSON.stringify(data));
+        db.close();
+      })
+    });
+  });
 })
 
 // catch 404 and forward to error handler

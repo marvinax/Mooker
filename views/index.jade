@@ -35,8 +35,8 @@ html(lang="en")
 
 						+side-item("file-management", "管理我的设计")
 							ul
-								li: button.btn.btn-default(id="save", type="button") 保存我现在的设计
-								li: button.btn.btn-default(type="button") 载入以前的设计
+								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#save-modal") 保存我现在的设计
+								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#load-modal") 载入以前的设计
 
 						+side-item("model-selection", "选择模型")
 							ul: li: div.btn-group(data-toggle="buttons")
@@ -90,6 +90,17 @@ html(lang="en")
 					.form-group: +slider("text", "Size", 10, 30, 20)
 					.form-group: +slider("text", "Kerning", -5, 5, 0)
 				button#confirm-text.btn.btn-primary(href="#") Insert text
+
+			+modal('save', '大作草就！起个名字存着～')
+				form
+					.form-group: input#sketch-name.form-control
+				button#save-sketch.btn.btn-primary(href="#") 妥了
+
+			+modal('load', '找以前的大作再改改？')
+				div#table-content.container-fluid
+				
+
+
 
 			#page-wrapper.page-wrapper: .container-fluid: .row: .col-md-12
 				#three-viewport.panel.panel-default

@@ -28,13 +28,8 @@ UI.Two = function(elementName, width, height){
 		showCrosshair : false
 	});
 
-	// this.canvas.add();
+	this.canvas.add();
 
-	$(window).resize(function(){
-		var width = $('#'+elementName).width(),
-			height = $('#'+elementName).height();
-		// this.canvas.resize(width, height);
-	}.bind(this));
 };
 
 UI.Two.prototype.constructor = UI.Two;
@@ -52,10 +47,10 @@ UI.Two.prototype.resize = function(width, height){
     this.canvas.setWidth(width);
     this.canvas.setHeight(height);
 
-    var c = this.canvas.getElement();
-    c.setAttribute('width', width*window.devicePixelRatio);
-    c.setAttribute('height', height*window.devicePixelRatio);
-    c.getContext('2d').scale(window.devicePixelRatio, window.devicePixelRatio);
+    // var c = this.canvas.getElement();
+    // c.setAttribute('width', width*window.devicePixelRatio);
+    // c.setAttribute('height', height*window.devicePixelRatio);
+    // c.getContext('2d').scale(window.devicePixelRatio, window.devicePixelRatio);
 
 	this.canvas.backgroundColor = 'rgba(255,255,255, 1)';
 

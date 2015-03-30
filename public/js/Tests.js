@@ -73,7 +73,7 @@ $('#deleteButton').on('click', function(){
 	two.canvas.renderAll();
 });
 
-$('#save').on('click', function(){
+$('#save-sketch').on('click', function(){
 	var idString = $('.model-select-button.active').attr('id');
 	if(idString){
 
@@ -83,14 +83,17 @@ $('#save').on('click', function(){
 
 		$.get('/saveSketch',
 			{
+				type : "sketch",
+				name : $('#sketch-name').val(),
 				three: selectedModel.param,
-				two: JSON.stringify(two.canvas.toDatalessJSON())
+				two: two.canvas.toJSON()
 			},
 			function(data){
 				console.log(data);
 			}
 		);
 
+		$('#save-modal').modal('toggle');
 	}
 });
 
@@ -133,5 +136,27 @@ $.get('/loadModels', function(data){
 			})
 		})
 	});
+
+	$.get('/loadSketchList', function(data){
+		var lists = JSON.parse(data);
+
+		lists.forEach(function(item){
+			$('#table-content').append($('<a href=# id="'+item.name+'-entry">'+item.name+'</a><p>'))
+
+			$('#'+item.name+'-entry').click(function(){
+				$.get('/loadSingleSketch', {name : item.name}, function(data){
+					$('#load-modal').modal('toggle');
+					
+					var doc = JSON.parse(data);
+
+					two.canvas.clear();
+					two.canvas.loadFromJSON(doc.two);
+					two.canvas.renderAll();
+					
+				})
+			})
+		});
+		
+	})
 
 })
