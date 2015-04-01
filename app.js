@@ -32,6 +32,7 @@ var mongoFind = function(res, theDB, theCollection, theQuery, theAction){
         if(err){
           console.log(err);
           res.send(err);
+          db.close();
           return;
         }
 
@@ -42,7 +43,7 @@ var mongoFind = function(res, theDB, theCollection, theQuery, theAction){
   });
 };
 
-var mongoSave = function(theDB, theCollection, theData){
+var mongoSave = function(res, theDB, theCollection, theData){
   mongoDB.open(function(err, db){
     if(err){
       console.log(err);
@@ -56,15 +57,13 @@ var mongoSave = function(theDB, theCollection, theData){
         res.send(err);
         return;
       }
-      collection.insert(theData, {safe : true}, function(err, data){
-        console.log(data);
+      collection.insertOne(theData, {safe : true}, function(err, data){
+        console.log(data.ops);
         db.close();
       })
     })
   })
 }
-var routes = require('./routes/index');
-var users = require('./routes/users');
 
 var app = express();
 
@@ -75,26 +74,30 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
-app.use(bodyParser.json({type: '*/*'}));
+app.use(bodyParser.raw());
+app.use(bodyParser.text());
+app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(nodefu());
 
-var jsonParser = bodyParser.json({type: '*/*'});
 
-app.get('/saveSketch', jsonParser, function(req, res, next){
-  mongoSave(mongoDB, 'models', req.query);
+app.all('/saveSketch', function(req, res, next){
+  console.log(req.body);
+  mongoSave(res, mongoDB, 'models', req.body);
   res.send({ok: 'saved'});
 })
 
-app.get('/', function(req, res,next){
+app.get('/', function(req, res, next){
   mongoFind(res, mongoDB, 'models', {type:"model"}, function(data){
     res.render('index', {models: data});
   })
 });
 
-app.post('/uploadImage', function(req, res, next){
+
+
+
+app.post('/uploadImage', nodefu(), function(req, res, next){
     req.files.file_data.toFile(path.join(__dirname, 'public/images'),
       function(err, data){
         if(!err){
@@ -109,16 +112,14 @@ app.post('/uploadImage', function(req, res, next){
 
 app.get('/loadModels', function(req, res, next){
   mongoFind(res, mongoDB, 'models', {type:"model"}, function(data){
-    console.log(data);
     res.json(JSON.stringify(data));
   })
 });
 
 
 app.get('/loadSingleSketch', function(req, res, next){
-
   mongoFind(res, mongoDB, 'models', req.query, function(data){
-    console.log(data);
+    console.log(data[0]);
     res.json(JSON.stringify(data[0]));
   })
 })
@@ -168,6 +169,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
+    console.log(err.stack);
     res.send({
       message: err.message,
       error: err
@@ -181,7 +183,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.send({
     message: err.message,
-    error: {}
+    error: err
   });
 });
 

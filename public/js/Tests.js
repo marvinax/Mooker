@@ -81,17 +81,21 @@ $('#save-sketch').on('click', function(){
 			return model.name === idString.split('-')[0];
 		})[0];
 
-		$.get('/saveSketch',
-			{
+		$.ajax({
+			url: '/saveSketch',
+			type: "POST",
+			data: JSON.stringify({
 				type : "sketch",
 				name : $('#sketch-name').val(),
 				three: selectedModel.param,
-				two: two.canvas.toJSON()
-			},
-			function(data){
-				console.log(data);
+				two: two.canvas.toDatalessObject()
+			}),
+			contentType:"application/json",
+			dataType: "json",
+			complete : function(xhr){
+				console.log(xhr.responseJSON)
 			}
-		);
+		})
 
 		$('#save-modal').modal('toggle');
 	}
@@ -144,13 +148,17 @@ $.get('/loadModels', function(data){
 			$('#table-content').append($('<a href=# id="'+item.name+'-entry">'+item.name+'</a><p>'))
 
 			$('#'+item.name+'-entry').click(function(){
-				$.get('/loadSingleSketch', {name : item.name}, function(data){
+				$.get('/loadSingleSketch', {name : item.name}, function(doc){
 					$('#load-modal').modal('toggle');
 					
-					var doc = JSON.parse(data);
+					console.log(JSON.parse(doc).two);
+
+					var doc_explained = JSON.parse(doc).two;
 
 					two.canvas.clear();
-					two.canvas.loadFromJSON(doc.two);
+					
+					two.canvas.loadFromDatalessJSON(JSON.parse(doc).two);
+
 					two.canvas.renderAll();
 					
 				})
@@ -158,5 +166,4 @@ $.get('/loadModels', function(data){
 		});
 		
 	})
-
-})
+});
