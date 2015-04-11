@@ -24,10 +24,6 @@ UI.Two = function(elementName, width, height){
 		this.resize(width, height);		
 	}	
 
-	$('.canvas-container').ruler({
-		showCrosshair : false
-	});
-
 	this.canvas.add();
 
 };

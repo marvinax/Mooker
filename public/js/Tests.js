@@ -1,5 +1,97 @@
-two = new UI.Two('two-viewport');
-three = new UI.Three('three-viewport');
+/**
+ * IN THE FUTURE, THIS PART WILL BE TOTALLY REWRITTEN WITH REACT.JS
+ */
+var model, geom, meshes, sketch_name;
+
+var updateSliderBars = function (model) {
+	$('#parameters').empty();
+
+	Object.keys(model.param).forEach(function(p){
+		var param_name = model.param[p].name;
+
+		$('<div class="input-group input-group-html5">')
+			.append('<span class=input-group-addon>'+param_name+'<span>')
+			.append($('<span class="input-group-addon addon-range">')
+				.append($('<input>')
+					.attr({
+						id: model.name+'-'+param_name+'-range',
+						type:"range",
+						min:model.param[p].min*2000,
+						max:model.param[p].max*2000,
+						value:model.param[p].val*2000
+					})))
+			.append($('<input class=form-control>')
+				.attr({
+					id: model.name+'-'+param_name+'-text',
+					value: model.param[p].val
+				}))
+			.after('<br>')
+			.appendTo($('#parameters'));
+
+
+		$('#'+model.name+'-'+param_name+'-range').on('input change', function(){
+			model.param[p].val = this.value/2000;
+			geom.update();
+			$('#'+model.name+'-'+param_name+'-text').val(this.value/2000);
+		});
+
+		$('#'+model.name+'-'+param_name+'-text').on('change', function(){
+			model.param[p].val = this.value;
+			geom.update();
+			$('#'+model.name+'-'+param_name+'-range').val(this.value*2000);
+		})
+	})
+};
+
+var drawModel = function(model){
+	for(var i = 0; i < three.scene.children.length; i++){
+		if(three.scene.children[i].type == "Object3D"){
+			three.scene.remove(three.scene.children[i]);
+		}
+	}
+
+	geom = new Tautology.Geometry(model);
+	meshes = new THREE.Object3D();
+
+	meshes.add(
+		new THREE.Mesh(geom.geom, material.materials.outside),
+		new THREE.Mesh(geom.geom, material.materials.inside)
+	);
+
+	three.scene.add(meshes);
+	// two.canvas.clear();
+	updateSliderBars(model);
+}
+
+var fetchModel = function(modelName, andThen){
+	$.get('/loadModels',{model:modelName}, function(data){
+		model = JSON.parse(data)[0];
+		andThen(model);
+	});
+
+}
+
+var saveSketch = function(sketch_name){
+	if(model != undefined){
+		var tobeSent = {
+				type : "sketch",
+				name : sketch_name ? sketch_name : $('#sketch-name').val(),
+				three: {model:model.name, param:model.param},
+				two: two.canvas.toDatalessObject()
+			};
+
+		$.ajax({
+			url: '/saveSketch',
+			type: "POST",
+			data: JSON.stringify(tobeSent),
+			contentType:"application/json",
+			dataType: "json",
+			complete : function(xhr){
+				console.log(xhr.responseJSON)
+			}
+		})
+	}
+}
 
 $('#color').colorPicker({
 	colorformat : 'rgba',
@@ -73,73 +165,54 @@ $('#deleteButton').on('click', function(){
 	two.canvas.renderAll();
 });
 
-$('#save-sketch').on('click', function(){
-	var idString = $('.model-select-button.active').attr('id');
-	if(idString){
-
-		var selectedModel = modelManager.models.filter(function(model){
-			return model.name === idString.split('-')[0];
-		})[0];
-
-		$.ajax({
-			url: '/saveSketch',
-			type: "POST",
-			data: JSON.stringify({
-				type : "sketch",
-				name : $('#sketch-name').val(),
-				three: selectedModel.param,
-				two: two.canvas.toDatalessObject()
-			}),
-			contentType:"application/json",
-			dataType: "json",
-			complete : function(xhr){
-				console.log(xhr.responseJSON)
-			}
-		})
-
+$('.save').on('click', function(){
+	if(sketch_name){
+		saveSketch(sketch_name);	
+	} else {
 		$('#save-modal').modal('toggle');
 	}
+})
+
+$('#save-sketch').on('click', function(){
+	saveSketch(sketch_name);
 });
 
-$.get('/loadModels', function(data){
+$('.choose-model').on('click', function(){
+	fetchModel($(this).attr("data-model"), function(model){
+		drawModel(model);
 
-	var material = {
+		$('#new-modal').modal('toggle');
+		sketch_name = undefined;
+
+		two.canvas.clear();
+		two.canvas.backgroundColor = 'rgba(255, 255, 255, 1)';
+		two.canvas.renderAll();
+
+		$('#model-adjustion-collapse').collapse('show');
+		$('#surface-design-collapse').collapse('show');
+	});
+});
+
+
+$(document).ready(function(){
+
+	two = new UI.Two('two-viewport');
+	three = new UI.Three('three-viewport');
+
+	materialParam = {
 		mainType: 'phong',
 		opacity : {val: 0.5, min:0., max:1., name: '透明度', type: 'slider'}
 	}
 
-	var models = JSON.parse(data);
-	console.log(models);
+	texture = new THREE.Texture( two.canvas.getElement() );
+	texture.needsUpdate = true;
 
-	modelManager = new Tautology.ModelManager(models, material, two.canvas);
-	modelManager.select(models[1].name, three.scene);
-
-	modelManager.models.forEach(function(elem){
-		$('#'+elem.name+'-button').on('click', function(){
-			modelManager.select(elem.name, three.scene);
-			$('.panel-collapse').collapse('hide');
-			$('#'+elem.name+'-panel').collapse('show');
-		});
-
-		
-		Object.keys(elem.param).forEach(function(p){
-			var name = elem.param[p].name;
-
-			$('#'+elem.name+'-'+name+'-range').on('input change', function(){
-
-				elem.param[p].val = this.value/2000;
-				elem.geom.update();
-				console.log($('#'+elem.name+'-'+name+'-text').get(0));
-				$('#'+elem.name+'-'+name+'-text').val(this.value/2000);
-			});
-
-			$('#'+elem.name+'-'+name+'-text').on('change', function(){
-				elem.param[p].val = this.value;
-				elem.geom.update();
-				$('#'+elem.name+'-'+name+'-range').val(this.value*2000);
-			})
-		})
+	two.canvas.on('after:render', function(){
+		texture.needsUpdate = true;
 	});
+
+
+	material = new Tautology.Material(materialParam, texture);
 
 	$.get('/loadSketchList', function(data){
 		var lists = JSON.parse(data);
@@ -151,14 +224,17 @@ $.get('/loadModels', function(data){
 				$.get('/loadSingleSketch', {name : item.name}, function(doc){
 					$('#load-modal').modal('toggle');
 					
-					console.log(JSON.parse(doc).two);
+					doc_explained = JSON.parse(doc);
+					console.log(doc_explained);
 
-					var doc_explained = JSON.parse(doc).two;
+					fetchModel(doc_explained.three.model, function(){
+						sketch_name = doc_explained.name;
+						model.param = doc_explained.three.param;
+						drawModel(model);
+					});
 
 					two.canvas.clear();
-					
-					two.canvas.loadFromDatalessJSON(JSON.parse(doc).two);
-
+					two.canvas.loadFromDatalessJSON(doc_explained.two);
 					two.canvas.renderAll();
 					
 				})
@@ -166,4 +242,5 @@ $.get('/loadModels', function(data){
 		});
 		
 	})
-});
+
+})

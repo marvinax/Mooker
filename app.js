@@ -57,8 +57,13 @@ var mongoSave = function(res, theDB, theCollection, theData){
         res.send(err);
         return;
       }
-      collection.insertOne(theData, {safe : true}, function(err, data){
-        console.log(data.ops);
+
+      console.log(theData);
+
+      collection.updateOne({name: theData.name}, theData, {upsert : true}, function(err, data){
+        console.log("here");
+        console.log(err);
+        console.log(data);
         db.close();
       })
     })
@@ -111,7 +116,7 @@ app.post('/uploadImage', nodefu(), function(req, res, next){
 });
 
 app.get('/loadModels', function(req, res, next){
-  mongoFind(res, mongoDB, 'models', {type:"model"}, function(data){
+  mongoFind(res, mongoDB, 'models', {type:"model", name:req.query.model}, function(data){
     res.json(JSON.stringify(data));
   })
 });

@@ -7,7 +7,6 @@ uglifyjs ./Tautology/Tautology.js \
          ./Tautology/Tautology.Transform.js \
          ./Tautology/Tautology.Geometry.js \
          ./Tautology/Tautology.Material.js \
-         ./Tautology/Tautology.ModelManager.js \
          -o Tautology.min.js \
          --source-map Tautology.min.js.map \
          --source-map-root http://foo.com/src \

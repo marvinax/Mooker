@@ -3,7 +3,7 @@ var material = {
     opacity : {val: 0.5, min:0., max:1., name: '透明度', type: 'slider'}
 }
 
-var PlainStraw = {type:"model", name: '直吸管'};
+var PlainStraw = {type:"model", name: '直吸管', desc: "最常见的直吸管"};
 
 PlainStraw.param = {
     length : {min:55, max:65, val:55, name : '管身长度', type: 'slider'},
@@ -60,7 +60,7 @@ PlainStraw.manuever = [
 ];
 
 
-var BendyStraw = {type: "model", name: "弯吸管"};
+var BendyStraw = {type: "model", name: "弯吸管", desc:"大丈夫能屈能伸"};
 
 // Adjustable parameters should include the min/max value and
 // current value that modified by slider. The parameters that

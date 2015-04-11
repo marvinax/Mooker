@@ -34,24 +34,13 @@ html(lang="en")
 					.nav.navbar-nav.side-nav-left
 
 						+side-item("file-management", "管理我的设计")
-							ul
-								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#save-modal") 保存我现在的设计
-								li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#load-modal") 载入以前的设计
-
-						+side-item("model-selection", "选择模型")
-							ul: li: div.btn-group(data-toggle="buttons")
-								each val in models
-									label.btn.btn-default.model-select-button(id=val.name+"-button", data-target="#"+val.name+"-panel", data-toggle="collapse")
-										input(type="radio", autocomplete="off")
-										span=val.name
+							ul: li: div.btn-group
+								button.btn.btn-default(type="button", data-toggle="modal", data-target="#new-modal") 新的
+								button.btn.btn-default.save(type="button", data-toggle="modal") 保存
+								button.btn.btn-default(type="button", data-toggle="modal", data-target="#load-modal") 载入
 
 						+side-item("model-adjustion", "调节你的模型")
-							ul: li: div#parameters.panel-group
-								each val in models
-									div.panel-collapse.collapse(id=val.name+"-panel", data-parent="#parameters")
-										each param, item in val.param
-											+slider(val.name, param.name, param.min, param.max, param.val)
-											br
+							ul: li: div#parameters
 
 						+side-item("surface-design", "设计表面的图案")
 							ul
@@ -74,7 +63,9 @@ html(lang="en")
 							.modal-body
 								block
 
-			+modal('gallery', 'All images are presented here~')
+
+
+			+modal('gallery', '所有的图片都在这儿了~')
 				div: input#upload-image(type="file")
 
 				#image-container.col-md-10
@@ -84,12 +75,23 @@ html(lang="en")
 						
 							
 
-			+modal('text', 'Figure out a better slogan?')
+			+modal('text', '想出更好的Slogan了嘛?')
 				form
 					.form-group: input#text.form-control
 					.form-group: +slider("text", "Size", 10, 30, 20)
 					.form-group: +slider("text", "Kerning", -5, 5, 0)
 				button#confirm-text.btn.btn-primary(href="#") Insert text
+
+			+modal('new', '从头开始个新的设计吧')
+				ul: each model in models
+					li
+						.container-fluid
+							a.choose-model(href="#", data-model=model.name): .pull-left: image(src="./images/model_icons/"+model.name+".png")
+							a.choose-model(href="#", data-model=model.name)
+								h1=model.name
+							span=model.desc
+						p
+
 
 			+modal('save', '大作草就！起个名字存着～')
 				form
@@ -105,7 +107,7 @@ html(lang="en")
 			#page-wrapper.page-wrapper: .container-fluid: .row: .col-md-12
 				#three-viewport.panel.panel-default
 				#viewContainer.panel.panel-default(height=200)
-					#scrollView: canvas#two-viewport.container-fluid
+					canvas#two-viewport.container-fluid
 
 
 	script(src="./js/vendors/jquery-2.1.3.min.js")
@@ -117,9 +119,7 @@ html(lang="en")
 	script(src='./js/vendors/TrackballControl.min.js')
 	script(src='./js/vendors/fabric.min.js')
 	script(src='./js/vendors/modernizr.js')
-	script(src='./js/vendors/ruler.js')
 	script(src="./js/vendors/colorPicker.min.js")
 	script(src="./js/Tautology.min.js")
 	script(src="./js/UI.min.js")
-	//- script(src="./js/models.js")
 	script(src="./js/Tests.js")
