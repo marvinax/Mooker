@@ -1,0 +1,129 @@
+doctype html
+
+html(lang="en")
+	head
+		meta(charset="utf-8")
+		title('Deziner')
+		link(rel="stylesheet", href="./css/bootstrap.min.css")
+		link(rel="stylesheet", href="./css/navbar.css")
+		link(rel="stylesheet", href="./css/range-input.css")
+		link(rel="stylesheet", href='./css/ruler.css')
+		link(rel="stylesheet", href='./css/colorPicker.min.css')
+		link(rel="stylesheet", href='./css/fileinput.min.css')
+
+
+	body
+		include navbar.jade
+		+navbar(true)
+
+		#wrapper.wrapper
+
+			mixin side-item(id, description)
+				li
+					a(href="#", data-toggle="collapse", data-target="#"+id+"-collapse")=description
+					div.collapse.panel-second-list(id=id+"-collapse")
+						block
+
+			mixin slider(model, name, min, max, val)
+				.input-group.input-group-html5(id=model+'-'+name)
+					span.input-group-addon= name
+					span.input-group-addon.addon-range
+						input(id=model+'-'+name+"-range", type="range", min=min*2000, max=max*2000, value=val*2000)
+					input.form-control(id=model+'-'+name+"-text", value=val)
+
+			.collapse.navbar-collapse
+				.nav.navbar-nav.side-nav-left
+
+					+side-item("file-management", "管理我的设计")
+						ul: li: div.btn-group
+							button.btn.btn-default(type="button", data-toggle="modal", data-target="#new-modal") 新的
+							button.btn.btn-default.save(type="button", data-toggle="modal") 保存
+							button.btn.btn-default(type="button", data-toggle="modal", data-target="#load-modal") 载入
+
+					+side-item("model-adjustion", "调节你的模型")
+						ul: li: div#parameters
+
+					+side-item("surface-design", "设计表面的图案")
+						ul
+							li: button#color.btn.btn-default(type="button") 更改底色
+
+							li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#gallery-modal") 插入图片
+							li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#text-modal") 插入文字
+							li: button.btn.btn-primary(id="deleteButton", type="button") 删除选中的文字/图片
+
+
+		
+			mixin modal(id, title)
+				.modal.fade(id=id+"-modal", tabindex=-1)
+					.modal-dialog.modal-md
+						.modal-content
+							.modal-header
+								button(type="button", class="close", data-dismiss="modal"): span &times;
+								h4.modal-title= title
+
+							.modal-body
+								block
+
+							.modal-footer
+
+
+
+			+modal('gallery', '所有的图片都在这儿了~')
+				div.upload-holder(style="visibility: hidden;"): input#upload-image(type="file")
+
+				#image-container
+					- for (var i = 1; i <= 4; ++i) {
+						a(href='#'): img.select.col-md-3(src="./images/public_logos/"+i+".png")
+					- }
+						
+							
+
+			+modal('text', '想出更好的Slogan了嘛?')
+				form
+					.form-group: input#text.form-control
+					.form-group: +slider("text", "Size", 10, 30, 20)
+					.form-group: +slider("text", "Kerning", -5, 5, 0)
+				button#confirm-text.btn.btn-primary(href="#") Insert text
+
+			+modal('new', '从头开始个新的设计吧')
+				ul: each model in models
+					li
+						.container-fluid
+							a.choose-model(href="#", data-model=model.name): .pull-left: image(src="./images/model_icons/"+model.name+".png")
+							a.choose-model(href="#", data-model=model.name)
+								h1=model.name
+							span=model.desc
+						p
+
+
+			+modal('save', '大作草就！起个名字存着～')
+				form
+					.form-group: input#sketch-name.form-control
+				button#save-sketch.btn.btn-primary(href="#") 妥了
+
+			+modal('load', '找以前的大作再改改？')
+				div#table-content.container-fluid
+				
+
+
+
+			#page-wrapper.page-wrapper: .container-fluid: .row: .col-md-12
+				#three-viewport.panel.panel-default
+				#viewContainer.panel.panel-default(height=200)
+					canvas#two-viewport.container-fluid
+
+
+	script(src="./js/design/vendors/jquery-2.1.3.min.js")
+	script(src="./js/design/vendors/jquery.nav.min.js")
+	script(src="./js/design/vendors/bootstrap.min.js")
+	script(src="./js/design/vendors/fileinput.min.js")
+	script(src="./js/design/vendors/three.min.js")
+	script(src="./js/design/vendors/tween.min.js")
+	script(src='./js/design/vendors/TrackballControl.min.js')
+	script(src='./js/design/vendors/fabric.min.js')
+	script(src='./js/design/vendors/modernizr.js')
+	script(src="./js/design/vendors/colorPicker.min.js")
+	script(src="./js/design/Tautology.min.js")
+	script(src="./js/design/UI.min.js")
+	script(src="./js/design/user-control.js")
+	script(src="./js/design/Tests.js")

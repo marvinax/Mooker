@@ -1,0 +1,34 @@
+mixin signup-modal
+  #signup-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel2', aria-hidden='true')
+    .modal-dialog.modal-lg: .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal')
+          span(aria-hidden='true') ×
+          span.sr-only Close
+        h2#myModalLabel2.modal-title 注册模氪
+      .modal-body: .section-content: .wrap
+        .form-wrap
+          div(data-animation='bounceInLeft', data-animation-delay='.2s')
+            .row
+              form
+                mixin vm-input(name, type, number, label, placeHolder)
+                  .form-group.col-md-6
+                    label(for=name+number)=label
+                    input.form-control(id=name+number, type=type, placeholder=placeHolder)
+
+                +vm-input('name', 'text', '1', '姓甚名谁', '请告诉我您的大名')
+                +vm-input('email', 'email', '1', '电子邮件', '请留下您的电子邮件')
+                +vm-input('phone', 'text', '1', '电话', '您的主要联系方式')
+              .row
+              form
+                +vm-input('account', 'text', '1', '用户名', '选个合适的用户名吧')
+                .row
+                +vm-input('passwd', 'password', '1', '密码', '输入您的密码')
+                +vm-input('passwd', 'password', '2', '再次输入密码', '确认你的密码')
+
+        .page-footer
+          .row.step-wrap
+            .col-xs-12
+            #submit.signup.col-md-4: button.btn.btn-block.nav-step-btn(type='submit') 确认
+
+

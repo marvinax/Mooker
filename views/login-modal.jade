@@ -1,0 +1,25 @@
+mixin login-modal
+  #login-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel2', aria-hidden='true')
+    .modal-dialog.modal-lg: .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal')
+          span(aria-hidden='true') ×
+          span.sr-only Close
+        h2#myModalLabel2.modal-title 登入模氪
+      .modal-body: .section-content: .wrap
+        .form-wrap
+          div(data-animation='bounceInLeft', data-animation-delay='.2s')
+            .row
+              form
+                mixin vm-input(name, type, number, label, placeHolder)
+                  .form-group.col-md-6
+                    label(for=name+number)=label
+                    input.form-control(id=name+number, type=type, placeholder=placeHolder)
+
+                +vm-input('account', 'text', '2', '用户名', '不着急慢慢想')
+                .row
+                +vm-input('passwd', 'password', '3', '密码', '密码')
+
+        .page-footer
+          .row
+            #submit.login.col-md-4: button.btn.btn-block.nav-step-btn(type='submit') 登入

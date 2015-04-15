@@ -1,0 +1,28 @@
+mixin navbar(isLandingPage, isCollapsed)
+  link(href='css/navbar.css', rel='stylesheet')
+  nav.navbar.navbar-custom.navbar-fixed-top(role='navigation', class=isCollapsed)
+    .container
+      .navbar-header
+        button.navbar-toggle(type='button', data-toggle='collapse', data-target='#top-nav')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+      #top-nav.collapse.navbar-collapse
+        ul.nav.navbar-nav.navbar-right
+          if isLandingPage
+            li.page-scroll: a(href='#slider') 回首页
+            li.page-scroll: a(href='#service') 我们的服务
+            li.page-scroll: a(href='#showcase') 案例展示
+            li.page-scroll: a(href='#contact') 联系我们
+          else
+            li.page-scroll: a(href='/') 回首页
+          li.page-scroll: a |
+          li.page-scroll: a(href='/design') 开始3D设计
+          li.page-scroll: a(href='gallery.html') 样例展示
+          li.page-scroll: a#signup-button(href='#signup', data-toggle='modal', data-target='#signup-modal') 新用户注册
+          li.page-scroll: a#login-button(href='#login', data-toggle='modal', data-target='#login-modal') 老用户登录
+      include signup-modal.jade
+      +signup-modal
+      include login-modal.jade
+      +login-modal

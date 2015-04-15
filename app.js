@@ -1,4 +1,7 @@
 var express = require('express');
+var session = require('express-session');
+
+var fs = require('fs');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -7,68 +10,9 @@ var bodyParser = require('body-parser');
 
 var nodefu  = require('nodefu')
 
-var Db = require('./node_modules/mongodb').Db,
-    Server = require('mongodb').Server;
 
-var mongoDB = new Db('docs', new Server('localhost',  27017, {}), {safe: false});
-
-var mongoFind = function(res, theDB, theCollection, theQuery, theAction){
-  mongoDB.open(function(err, db){
-    if(err){
-      console.log(err);
-      res.send(err);
-      return;
-    }
-    
-    db.collection('models', function(err, collection){
-      if(err){
-        db.close();
-        console.log(err);
-        res.send(err);
-        return;
-      }
-
-      collection.find(theQuery).toArray(function(err, data){
-        if(err){
-          console.log(err);
-          res.send(err);
-          db.close();
-          return;
-        }
-
-        theAction(data);
-        db.close();
-      })
-    });
-  });
-};
-
-var mongoSave = function(res, theDB, theCollection, theData){
-  mongoDB.open(function(err, db){
-    if(err){
-      console.log(err);
-      res.send(err);
-      return;
-    }
-    db.collection('models', function(err, collection){
-      if(err){
-        db.close();
-        console.log(err);
-        res.send(err);
-        return;
-      }
-
-      console.log(theData);
-
-      collection.updateOne({name: theData.name}, theData, {upsert : true}, function(err, data){
-        console.log("here");
-        console.log(err);
-        console.log(data);
-        db.close();
-      })
-    })
-  })
-}
+var sketchStoreRouters = require('./sketch-store');
+var userStoreRouters = require('./user-store');
 
 var app = express();
 
@@ -77,7 +21,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.raw());
 app.use(bodyParser.text());
@@ -86,77 +29,30 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-app.all('/saveSketch', function(req, res, next){
-  console.log(req.body);
-  mongoSave(res, mongoDB, 'models', req.body);
-  res.send({ok: 'saved'});
-})
+app.use(sketchStoreRouters);
+app.use(userStoreRouters);
 
 app.get('/', function(req, res, next){
-  mongoFind(res, mongoDB, 'models', {type:"model"}, function(data){
-    res.render('index', {models: data});
-  })
-});
+  res.render('index');
+})
 
-
-
-
-app.post('/uploadImage', nodefu(), function(req, res, next){
-    req.files.file_data.toFile(path.join(__dirname, 'public/images'),
-      function(err, data){
-        if(!err){
-            console.log('file uploaded successfully');
-            res.send({
-                res : 'ok',
-                file : path.basename(data)
-            });            
-        }
+app.post('/uploadImage/', nodefu(), function(req, res, next){
+  console.log(req.session);
+  req.files.file_data.toFile(path.join(__dirname, 'public/images/'+req.session.login.account),
+    function(err, data){
+      if(!err){
+        console.log('file uploaded successfully');
+        res.send({
+          res : 'ok',
+          file : path.basename(data)
+        });            
+      }
     })
 });
 
-app.get('/loadModels', function(req, res, next){
-  mongoFind(res, mongoDB, 'models', {type:"model", name:req.query.model}, function(data){
-    res.json(JSON.stringify(data));
-  })
-});
-
-
-app.get('/loadSingleSketch', function(req, res, next){
-  mongoFind(res, mongoDB, 'models', req.query, function(data){
-    console.log(data[0]);
-    res.json(JSON.stringify(data[0]));
-  })
-})
-
-app.get('/loadSketchList', function(req, res, next){
-  mongoDB.open(function(err, db){
-    if(err){
-      console.log(err);
-      res.send(err);
-      return;
-    }
-    
-    db.collection('models', function(err, collection){
-      if(err){
-        db.close();
-        console.log(err);
-        res.send(err);
-        return;
-      }
-
-      collection.find({type:"sketch"}, {_id:1, name:1}).toArray(function(err, data){
-        if(err){
-          console.log(err);
-          res.send(err);
-          return;
-        }
-
-        res.json(JSON.stringify(data));
-        db.close();
-      })
-    });
-  });
+app.get('/userImageList/:account', function(req, res, next){
+  console.log(fs.readdirSync(path.join(__dirname, 'public/images/'+req.params.account)));
+  res.send(fs.readdirSync(path.join(__dirname, 'public/images/'+req.params.account)));
 })
 
 // catch 404 and forward to error handler
