@@ -1,36 +1,237 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'node', '/usr/local/bin/npm', 'start' ]
-2 info using npm@2.5.1
-3 info using node@v0.12.0
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', '--verbose' ]
+2 info using npm@2.3.0
+3 info using node@v0.10.36
 4 verbose node symlink /usr/local/bin/node
-5 verbose run-script [ 'prestart', 'start', 'poststart' ]
-6 info prestart Moquet@0.0.0
-7 info start Moquet@0.0.0
-8 verbose unsafe-perm in lifecycle true
-9 info Moquet@0.0.0 Failed to exec start script
-10 verbose stack Error: Moquet@0.0.0 start: `node ./bin/www`
-10 verbose stack Exit status 1
-10 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:213:16)
-10 verbose stack     at EventEmitter.emit (events.js:110:17)
-10 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:14:12)
-10 verbose stack     at ChildProcess.emit (events.js:110:17)
-10 verbose stack     at maybeClose (child_process.js:1008:16)
-10 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1080:5)
-11 verbose pkgid Moquet@0.0.0
-12 verbose cwd /Users/nightvista/GitHub/Moquet
-13 error Darwin 14.1.0
-14 error argv "node" "/usr/local/bin/npm" "start"
-15 error node v0.12.0
-16 error npm  v2.5.1
-17 error code ELIFECYCLE
-18 error Moquet@0.0.0 start: `node ./bin/www`
-18 error Exit status 1
-19 error Failed at the Moquet@0.0.0 start script 'node ./bin/www'.
-19 error This is most likely a problem with the Moquet package,
-19 error not with npm itself.
-19 error Tell the author that this fails on your system:
-19 error     node ./bin/www
-19 error You can get their info via:
-19 error     npm owner ls Moquet
-19 error There is likely additional logging output above.
-20 verbose exit [ 1, true ]
+5 verbose install where, deps [ '/Users/yuetao/GitHub/Moquet',
+5 verbose install   [ 'body-parser',
+5 verbose install     'cookie-parser',
+5 verbose install     'debug',
+5 verbose install     'ejs',
+5 verbose install     'jade',
+5 verbose install     'express',
+5 verbose install     'nodefu',
+5 verbose install     'morgan',
+5 verbose install     'serve-favicon',
+5 verbose install     'express-session',
+5 verbose install     'mongodb',
+5 verbose install     'connect-mongo',
+5 verbose install     'crypto' ] ]
+6 verbose install where, peers [ '/Users/yuetao/GitHub/Moquet', [] ]
+7 info preinstall Moquet@0.0.0
+8 warn package.json crypto@0.0.3 crypto is also the name of a node core module.
+9 verbose already installed skipping express@~4.12.2 /Users/yuetao/GitHub/Moquet
+10 silly cache add args [ 'nodefu@latest', null ]
+11 verbose cache add spec nodefu@latest
+12 verbose already installed skipping morgan@~1.5.1 /Users/yuetao/GitHub/Moquet
+13 verbose already installed skipping serve-favicon@~2.2.0 /Users/yuetao/GitHub/Moquet
+14 silly cache add args [ 'express-session@latest', null ]
+15 verbose cache add spec express-session@latest
+16 silly cache add parsed spec { raw: 'nodefu@latest',
+16 silly cache add   scope: null,
+16 silly cache add   name: 'nodefu',
+16 silly cache add   rawSpec: 'latest',
+16 silly cache add   spec: 'latest',
+16 silly cache add   type: 'tag' }
+17 verbose addNamed nodefu@latest
+18 silly addNamed semver.valid null
+19 silly addNamed semver.validRange null
+20 info addNameTag [ 'nodefu', 'latest' ]
+21 silly mapToRegistry name nodefu
+22 silly mapToRegistry using default registry
+23 silly mapToRegistry registry https://registry.npmjs.org/
+24 silly mapToRegistry uri https://registry.npmjs.org/nodefu
+25 verbose addNameTag registry:https://registry.npmjs.org/nodefu not in flight; fetching
+26 silly cache add parsed spec { raw: 'express-session@latest',
+26 silly cache add   scope: null,
+26 silly cache add   name: 'express-session',
+26 silly cache add   rawSpec: 'latest',
+26 silly cache add   spec: 'latest',
+26 silly cache add   type: 'tag' }
+27 verbose addNamed express-session@latest
+28 silly addNamed semver.valid null
+29 silly addNamed semver.validRange null
+30 info addNameTag [ 'express-session', 'latest' ]
+31 silly mapToRegistry name express-session
+32 silly mapToRegistry using default registry
+33 silly mapToRegistry registry https://registry.npmjs.org/
+34 silly mapToRegistry uri https://registry.npmjs.org/express-session
+35 verbose addNameTag registry:https://registry.npmjs.org/express-session not in flight; fetching
+36 silly cache add args [ 'mongodb@latest', null ]
+37 verbose cache add spec mongodb@latest
+38 silly cache add args [ 'connect-mongo@latest', null ]
+39 verbose cache add spec connect-mongo@latest
+40 silly cache add args [ 'crypto@latest', null ]
+41 verbose cache add spec crypto@latest
+42 silly cache add args [ 'body-parser@latest', null ]
+43 verbose cache add spec body-parser@latest
+44 verbose already installed skipping cookie-parser@~1.3.4 /Users/yuetao/GitHub/Moquet
+45 verbose already installed skipping debug@~2.1.1 /Users/yuetao/GitHub/Moquet
+46 verbose request uri https://registry.npmjs.org/nodefu
+47 verbose request no auth needed
+48 info attempt registry request try #1 at 08:03:47
+49 verbose request id 756e36f706d6570f
+50 http request GET https://registry.npmjs.org/nodefu
+51 verbose request uri https://registry.npmjs.org/express-session
+52 verbose request no auth needed
+53 info attempt registry request try #1 at 08:03:47
+54 http request GET https://registry.npmjs.org/express-session
+55 silly cache add parsed spec { raw: 'mongodb@latest',
+55 silly cache add   scope: null,
+55 silly cache add   name: 'mongodb',
+55 silly cache add   rawSpec: 'latest',
+55 silly cache add   spec: 'latest',
+55 silly cache add   type: 'tag' }
+56 verbose addNamed mongodb@latest
+57 silly addNamed semver.valid null
+58 silly addNamed semver.validRange null
+59 info addNameTag [ 'mongodb', 'latest' ]
+60 silly mapToRegistry name mongodb
+61 silly mapToRegistry using default registry
+62 silly mapToRegistry registry https://registry.npmjs.org/
+63 silly mapToRegistry uri https://registry.npmjs.org/mongodb
+64 verbose addNameTag registry:https://registry.npmjs.org/mongodb not in flight; fetching
+65 silly cache add parsed spec { raw: 'connect-mongo@latest',
+65 silly cache add   scope: null,
+65 silly cache add   name: 'connect-mongo',
+65 silly cache add   rawSpec: 'latest',
+65 silly cache add   spec: 'latest',
+65 silly cache add   type: 'tag' }
+66 verbose addNamed connect-mongo@latest
+67 silly addNamed semver.valid null
+68 silly addNamed semver.validRange null
+69 info addNameTag [ 'connect-mongo', 'latest' ]
+70 silly mapToRegistry name connect-mongo
+71 silly mapToRegistry using default registry
+72 silly mapToRegistry registry https://registry.npmjs.org/
+73 silly mapToRegistry uri https://registry.npmjs.org/connect-mongo
+74 verbose addNameTag registry:https://registry.npmjs.org/connect-mongo not in flight; fetching
+75 silly cache add parsed spec { raw: 'crypto@latest',
+75 silly cache add   scope: null,
+75 silly cache add   name: 'crypto',
+75 silly cache add   rawSpec: 'latest',
+75 silly cache add   spec: 'latest',
+75 silly cache add   type: 'tag' }
+76 verbose addNamed crypto@latest
+77 silly addNamed semver.valid null
+78 silly addNamed semver.validRange null
+79 info addNameTag [ 'crypto', 'latest' ]
+80 silly mapToRegistry name crypto
+81 silly mapToRegistry using default registry
+82 silly mapToRegistry registry https://registry.npmjs.org/
+83 silly mapToRegistry uri https://registry.npmjs.org/crypto
+84 verbose addNameTag registry:https://registry.npmjs.org/crypto not in flight; fetching
+85 silly cache add parsed spec { raw: 'body-parser@latest',
+85 silly cache add   scope: null,
+85 silly cache add   name: 'body-parser',
+85 silly cache add   rawSpec: 'latest',
+85 silly cache add   spec: 'latest',
+85 silly cache add   type: 'tag' }
+86 verbose addNamed body-parser@latest
+87 silly addNamed semver.valid null
+88 silly addNamed semver.validRange null
+89 info addNameTag [ 'body-parser', 'latest' ]
+90 silly mapToRegistry name body-parser
+91 silly mapToRegistry using default registry
+92 silly mapToRegistry registry https://registry.npmjs.org/
+93 silly mapToRegistry uri https://registry.npmjs.org/body-parser
+94 verbose addNameTag registry:https://registry.npmjs.org/body-parser not in flight; fetching
+95 verbose already installed skipping ejs@~2.3.1 /Users/yuetao/GitHub/Moquet
+96 silly cache add args [ 'jade@latest', null ]
+97 verbose cache add spec jade@latest
+98 verbose request uri https://registry.npmjs.org/mongodb
+99 verbose request no auth needed
+100 info attempt registry request try #1 at 08:03:47
+101 http request GET https://registry.npmjs.org/mongodb
+102 verbose request uri https://registry.npmjs.org/connect-mongo
+103 verbose request no auth needed
+104 info attempt registry request try #1 at 08:03:47
+105 http request GET https://registry.npmjs.org/connect-mongo
+106 verbose request uri https://registry.npmjs.org/crypto
+107 verbose request no auth needed
+108 info attempt registry request try #1 at 08:03:47
+109 http request GET https://registry.npmjs.org/crypto
+110 verbose request uri https://registry.npmjs.org/body-parser
+111 verbose request no auth needed
+112 info attempt registry request try #1 at 08:03:47
+113 http request GET https://registry.npmjs.org/body-parser
+114 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+115 silly cache add parsed spec { raw: 'jade@latest',
+115 silly cache add   scope: null,
+115 silly cache add   name: 'jade',
+115 silly cache add   rawSpec: 'latest',
+115 silly cache add   spec: 'latest',
+115 silly cache add   type: 'tag' }
+116 verbose addNamed jade@latest
+117 silly addNamed semver.valid null
+118 silly addNamed semver.validRange null
+119 info addNameTag [ 'jade', 'latest' ]
+120 silly mapToRegistry name jade
+121 silly mapToRegistry using default registry
+122 silly mapToRegistry registry https://registry.npmjs.org/
+123 silly mapToRegistry uri https://registry.npmjs.org/jade
+124 verbose addNameTag registry:https://registry.npmjs.org/jade not in flight; fetching
+125 verbose request uri https://registry.npmjs.org/jade
+126 verbose request no auth needed
+127 info attempt registry request try #1 at 08:03:47
+128 http request GET https://registry.npmjs.org/jade
+129 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+130 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+131 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+132 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+133 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+134 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+135 info attempt registry request try #2 at 08:03:57
+136 http request GET https://registry.npmjs.org/nodefu
+137 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+138 info attempt registry request try #2 at 08:03:57
+139 http request GET https://registry.npmjs.org/express-session
+140 info attempt registry request try #2 at 08:03:57
+141 http request GET https://registry.npmjs.org/mongodb
+142 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+143 info attempt registry request try #2 at 08:03:57
+144 http request GET https://registry.npmjs.org/connect-mongo
+145 info attempt registry request try #2 at 08:03:57
+146 http request GET https://registry.npmjs.org/crypto
+147 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+148 info attempt registry request try #2 at 08:03:57
+149 http request GET https://registry.npmjs.org/body-parser
+150 info attempt registry request try #2 at 08:03:57
+151 http request GET https://registry.npmjs.org/jade
+152 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+153 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+154 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+155 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND
+156 info attempt registry request try #3 at 08:04:57
+157 http request GET https://registry.npmjs.org/nodefu
+158 info attempt registry request try #3 at 08:04:57
+159 http request GET https://registry.npmjs.org/express-session
+160 info attempt registry request try #3 at 08:04:57
+161 http request GET https://registry.npmjs.org/mongodb
+162 info attempt registry request try #3 at 08:04:57
+163 http request GET https://registry.npmjs.org/connect-mongo
+164 info attempt registry request try #3 at 08:04:57
+165 http request GET https://registry.npmjs.org/crypto
+166 info attempt registry request try #3 at 08:04:57
+167 http request GET https://registry.npmjs.org/body-parser
+168 info attempt registry request try #3 at 08:04:57
+169 http request GET https://registry.npmjs.org/jade
+170 verbose stack Error: getaddrinfo ENOTFOUND
+170 verbose stack     at errnoException (dns.js:37:11)
+170 verbose stack     at Object.onanswer [as oncomplete] (dns.js:124:16)
+171 verbose cwd /Users/yuetao/GitHub/Moquet
+172 error Darwin 14.3.0
+173 error argv "node" "/usr/local/bin/npm" "install" "--verbose"
+174 error node v0.10.36
+175 error npm  v2.3.0
+176 error code ENOTFOUND
+177 error errno ENOTFOUND
+178 error syscall getaddrinfo
+179 error network getaddrinfo ENOTFOUND
+179 error network This is most likely not a problem with npm itself
+179 error network and is related to network connectivity.
+179 error network In most cases you are behind a proxy or have bad network settings.
+179 error network
+179 error network If you are behind a proxy, please make sure that the
+179 error network 'proxy' config is set properly.  See: 'npm help config'
+180 verbose exit [ 1, true ]

@@ -81,6 +81,12 @@ var drawSketch = function(doc){
 	fetchModel(doc.three.model, function(){
 		sketch_name = doc.name;
 		model.param = doc.three.param;
+		if(doc.three.camera){
+			three.camera.up = new THREE.Vector3(doc.three.camera.up.x, doc.three.camera.up.y, doc.three.camera.up.z);
+			three.camera.position = THREE.Vector3(doc.three.camera.position.x, doc.three.camera.position.y, doc.three.camera.position.z);
+			three.camera.lookat = THREE.Vector3(doc.three.camera.lookat.x, doc.three.camera.lookat.y, doc.three.camera.lookat.z);
+
+		}
 		drawModel(model);
 	});
 
@@ -105,7 +111,7 @@ var saveSketch = function(sketch_name){
 				type : "sketch",
 				account : $('#login-button').attr('data-account'),
 				name : sketch_name ? sketch_name : $('#sketch-name').val(),
-				three: {model:model.name, param:model.param},
+				three: {model:model.name, param:model.param, camera:{position:three.camera.position, up:three.camera.up, lookat:three.camera.lookat}},
 				two: two.canvas.toDatalessObject()
 			};
 
@@ -156,7 +162,10 @@ var initUploadHandler = function(accountName){
 		);
 
 		$('.select').on('click', function(e){
-			two.addImage(e.target.getAttribute('src'));
+			console.log($('#repeat').get(0));
+	
+			two.addImage(e.target.getAttribute('src'),
+				$('#tint-color').attr('data-color'), $('#trans').attr('data-trans'), $('#repeat').attr('data-repeat'));
 			$('#gallery-modal').modal('toggle');
 		})
 	});
@@ -172,7 +181,9 @@ var getImageList = function(accountName){
 		})
 
 		$('.select').on('click', function(e){
-			two.addImage(e.target.getAttribute('src'));
+			two.addImage(
+				e.target.getAttribute('src'),
+				$('#tint-color').attr('data-color'), $('#trans').attr('data-trans'), $('#repeat').attr('data-repeat'));
 			$('#gallery-modal').modal('toggle');
 		})
 
@@ -198,12 +209,20 @@ var checkLogged = function(){
 
 }
 
-$('#color').colorPicker({
+$('#base-color').colorPicker({
 	colorformat : 'rgba',
 	alignment : 'br',
 	onSelect : function(ui, color){
 		two.canvas.backgroundColor = color;
 		two.canvas.renderAll();
+	}
+})
+
+$('#tint-color').colorPicker({
+	colorformat : 'rgba',
+	alignment : 'br',
+	onSelect : function(ui, color){
+		$('#tint-color').attr('data-color', color);
 	}
 })
 
@@ -215,8 +234,33 @@ $('.modal').on('show.bs.modal', function () {
 	});
 });
 
+$('#trans').click(function(){
+	if(!$('#trans').attr('data-trans') || $('#trans').attr('data-trans') == "false"){
+		$('#trans').attr('data-trans', 'true');
+	} else {
+		$('#trans').attr('data-trans', 'false');
+	}
+	console.log($('#trans').attr('data-trans'));
+})
+
+$('#repeat').click(function(){
+	if(!$('#repeat').attr('data-repeat') || $('#repeat').attr('data-repeat') == "false"){
+		$('#repeat').attr('data-repeat', 'true');
+	} else {
+		$('#repeat').attr('data-repeat', 'false');
+	}
+	console.log($('#repeat').attr('data-repeat'));
+})
+
+
 $('.select').on('click', function(e){
-	two.addImage(e.target.getAttribute('src'));
+	console.log($('#repeat'));
+	two.addImage(
+		e.target.getAttribute('src'),
+		$('#tint-color').attr('data-color'),
+		$('#trans').attr('data-trans'),
+		$('#repeat').attr('data-repeat')
+		);
 	$('#gallery-modal').modal('toggle');
 })
 
@@ -317,7 +361,7 @@ $(document).ready(function(){
 
 	materialParam = {
 		mainType: 'phong',
-		opacity : {val: 0.5, min:0., max:1., name: '透明度', type: 'slider'}
+		opacity : {val: 1, min:0., max:1., name: '透明度', type: 'slider'}
 	}
 
 	texture = new THREE.Texture( two.canvas.getElement() );

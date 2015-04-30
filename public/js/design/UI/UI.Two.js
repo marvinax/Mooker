@@ -36,17 +36,17 @@ UI.Two.prototype.setBackgroundColor = function(){
 
 /**
  * resize the canvas according to the resizing of geometric model 
- * @param  {Number} width
- * @param  {Number} height
+ * @param	{Number} width
+ * @param	{Number} height
  */
 UI.Two.prototype.resize = function(width, height){
-    this.canvas.setWidth(width);
-    this.canvas.setHeight(height);
+	this.canvas.setWidth(width);
+	this.canvas.setHeight(height);
 
-    // var c = this.canvas.getElement();
-    // c.setAttribute('width', width*window.devicePixelRatio);
-    // c.setAttribute('height', height*window.devicePixelRatio);
-    // c.getContext('2d').scale(window.devicePixelRatio, window.devicePixelRatio);
+	// var c = this.canvas.getElement();
+	// c.setAttribute('width', width*window.devicePixelRatio);
+	// c.setAttribute('height', height*window.devicePixelRatio);
+	// c.getContext('2d').scale(window.devicePixelRatio, window.devicePixelRatio);
 
 	this.canvas.backgroundColor = 'rgba(255,255,255, 1)';
 
@@ -58,17 +58,56 @@ UI.Two.prototype.resize = function(width, height){
  * add image to canvas
  * @param {String} url
  */
-UI.Two.prototype.addImage = function(url){
-    console.log(url);	
-    fabric.Image.fromURL(url, function(img) {
+UI.Two.prototype.addImage = function(url, color, trans, repeat){
+	fabric.Image.fromURL(url, function(img) {
+		img._element.crossOrigin = "Anonymous";
 
-	    // if(img.height > this.canvas.height){
-	    //     img.scale(img.height/this.canvas.height * 0.1);
-	    // }
-	    console.log(img);
-	    img._element.crossOrigin = "Anonymous";
-	    this.canvas.add(img);
-    }.bind(this)); 
+		if(trans==="true"){
+			console.log('trying to remove');
+			img.filters.push(new fabric.Image.filters.RemoveWhite({
+				threshold: 200,
+				distance: 180
+			}));
+		}
+
+		if(color){
+			img.filters.push(new fabric.Image.filters.Tint({
+				color: color
+			}));
+		}
+
+		if(repeat==="true"){
+			console.log('repeated');
+			var patternSourceCanvas = new fabric.StaticCanvas();
+		    img.scaleToWidth(120);
+		    img.applyFilters();
+			patternSourceCanvas.add(img);
+
+			var pattern = new fabric.Pattern({
+				source: function() {
+					patternSourceCanvas.setDimensions({
+						width: img.getWidth() * 1.3,
+						height: img.getHeight() * 1.3
+					});
+					return patternSourceCanvas.getElement();
+				},
+				repeat: 'repeat'
+			});
+
+			this.canvas.add(new fabric.Rect({
+				left: 0,
+				top : 0,
+				width : this.canvas.getWidth(),
+				height : this.canvas.getHeight(),
+				fill : pattern
+			}));
+		} else {
+			this.canvas.add(img);
+			img.applyFilters(this.canvas.renderAll().bind(this.canvas));
+		}
+		
+
+	}.bind(this)); 
 };
 
 /**
@@ -151,7 +190,7 @@ UI.Two.prototype.makePatterns = function(){
 
 /**
  * update pattern
- * @param  {Number} pattern pattern index
+ * @param	{Number} pattern pattern index
  */
 UI.Two.prototype.updatePattern = function(pattern){
 	this.canvas.add(this.patterns[pattern]);
@@ -161,13 +200,13 @@ UI.Two.prototype.updatePattern = function(pattern){
  * remove selected object from the canvas
  */
 UI.Two.prototype.removeSelectedObject = function(){
-    if(this.canvas.getActiveObject() == null){
-        this.canvas.getActiveGroup().forEachObject(function(o){ this.canvas.remove(o) });
-        this.canvas.discardActiveGroup().renderAll();
-    } else if(this.canvas.getActiveObject() != null){
-        this.canvas.remove(this.canvas.getActiveObject());
-        this.canvas.discardActiveObject().renderAll();
-    }
+	if(this.canvas.getActiveObject() == null){
+		this.canvas.getActiveGroup().forEachObject(function(o){ this.canvas.remove(o) });
+		this.canvas.discardActiveGroup().renderAll();
+	} else if(this.canvas.getActiveObject() != null){
+		this.canvas.remove(this.canvas.getActiveObject());
+		this.canvas.discardActiveObject().renderAll();
+	}
 };
 
 /**

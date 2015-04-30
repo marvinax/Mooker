@@ -7,7 +7,6 @@ html(lang="en")
 		link(rel="stylesheet", href="./css/bootstrap.min.css")
 		link(rel="stylesheet", href="./css/navbar.css")
 		link(rel="stylesheet", href="./css/range-input.css")
-		link(rel="stylesheet", href='./css/ruler.css')
 		link(rel="stylesheet", href='./css/colorPicker.min.css')
 		link(rel="stylesheet", href='./css/fileinput.min.css')
 
@@ -45,7 +44,7 @@ html(lang="en")
 
 					+side-item("surface-design", "设计表面的图案")
 						ul
-							li: button#color.btn.btn-default(type="button") 更改底色
+							li: button#base-color.color-picker.btn.btn-default(type="button") 更改底色
 
 							li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#gallery-modal") 插入图片
 							li: button.btn.btn-default(type="button", data-toggle="modal", data-target="#text-modal") 插入文字
@@ -70,6 +69,14 @@ html(lang="en")
 
 			+modal('gallery', '所有的图片都在这儿了~')
 				div.upload-holder(style="visibility: hidden;"): input#upload-image(type="file")
+				p
+				button#tint-color.color-picker.btn.btn-default(type="button") 更改颜色
+				.checkbox: label
+					input#trans(type='checkbox')
+					|勾选的话白色部分可就要变为透明了！
+				.checkbox: label
+					input#repeat(type='checkbox')
+					|勾选的话就要插入重复的图片！
 
 				#image-container
 					- for (var i = 1; i <= 4; ++i) {
@@ -124,6 +131,8 @@ html(lang="en")
 	script(src='./js/design/vendors/modernizr.js')
 	script(src="./js/design/vendors/colorPicker.min.js")
 	script(src="./js/design/Tautology.min.js")
-	script(src="./js/design/UI.min.js")
+	script(src="./js/design/UI/UI.js")
+	script(src="./js/design/UI/UI.three.js")
+	script(src="./js/design/UI/UI.two.js")
 	script(src="./js/design/user-control.js")
 	script(src="./js/design/Tests.js")
